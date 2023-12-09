@@ -1,0 +1,13 @@
+@mixin container() {
+    margin: 0 150px;
+    @media (max-width: $lg) {
+        margin: 0 70px;
+    }
+    @media (max-width: $md) {
+        margin: 0 20px;
+    }
+}
+
+@mixin trans($effect, $time) {
+    transition: $effect $time ease;
+}

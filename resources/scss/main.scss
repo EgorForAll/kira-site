@@ -1,0 +1,39 @@
+@import "variables";
+@import "mixins";
+
+.logo {
+    width: 195px;
+    height: 56px;
+    @media (max-width: $md) {
+        width: 130px;
+        height: 36px;
+    }
+}
+
+.avatar-svg {
+    width: 48px;
+    height: 47px;
+    @media (max-width: $md) {
+        width: 24px;
+        height: 23px;
+    }
+}
+
+.list-svg {
+    width: 40px;
+    height: 36px;
+    @media (max-width: $lg) {
+        width: 30px;
+        height: 26px;
+    }
+}
+
+
+.table-svg {
+    width: 51px;
+    height: 50px;
+    @media (max-width: $lg) {
+        width: 40px;
+        height: 40px;
+    }
+}

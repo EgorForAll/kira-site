@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+}
+
+ul, ol {
+    list-style-type: none;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Kyiv*Type Serif', sans-serif;
+}
+
+@font-face {
+    font-family: 'Kyiv*Type Serif';
+    font-display: swap;
+    src: url("../assets/fonts/KyivTypeSerif-VarGX.ttf");
+}
+
