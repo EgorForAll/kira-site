@@ -3,6 +3,7 @@ import {createApp} from "vue/dist/vue.esm-bundler.js";
 import App from "./components/App.vue"
 import "../css/app.css"
 import "../scss/main.scss"
+import "magic.css/dist/magic.min.css"
 import store from "./store/index.js"
 
 const app = createApp({
