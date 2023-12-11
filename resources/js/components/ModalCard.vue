@@ -1,24 +1,174 @@
 <script>
-export default  {
-    name: 'ModalCard'
+import Widgets from "./Widjets.vue";
+import Date from "./Date.vue";
+import {mapActions, mapGetters} from "vuex";
+import {toRaw} from "vue";
+
+export default {
+    name: 'ModalCard',
+    components: {Widgets, Date},
+    methods: {
+        ...mapActions({
+            setCurrentPost: "posts/setCurrentPost"
+        }),
+        ...mapActions({
+            loadComments: "comments/fetchComments"
+        }),
+        closeWindow() {
+            const setCurrentPost = (value) => {
+                this.setCurrentPost(value)
+                document.querySelector('body').classList.remove('overlay')
+            }
+            this.$refs.modal.classList.remove('elevateRight')
+            this.$refs.modal.classList.add('moveToTop')
+            setTimeout(() => setCurrentPost(null), 500)
+        },
+        onEscDown(e) {
+            if (e.key === 'Escape' || e.key === 'Esc') {
+                this.closeWindow()
+            }
+        },
+        onWindowClick(e) {
+            const inModal = e.composedPath().includes(this.$refs.modal)
+            if (!inModal) {
+                this.closeWindow()
+            }
+        }
+    },
+    computed: {
+        ...mapGetters({
+            currentPost: "posts/getCurrentPost"
+        }),
+        ...mapGetters({
+            comments: 'comments/getComments'
+        })
+    },
+    mounted() {
+        window.addEventListener('keydown', this.onEscDown)
+        setTimeout(() => window.addEventListener('click', this.onWindowClick), 500)
+    },
+    beforeUnmount() {
+        window.removeEventListener('keydown', this.onEscDown)
+        window.removeEventListener('click', this.onWindowClick)
+    },
+    created() {
+        const postId = toRaw(this.currentPost).id;
+        this.loadComments(postId)
+    }
 }
 </script>
 
 <template>
-    <div class="modal-card"></div>
+    <div ref="modal" class="modal-card cssanimation elevateRight">
+        <header class="modal-card__header pb-2 pt-1">
+            <span class="modal-card__tile">#{{currentPost.title}}</span>
+            <button @click="closeWindow" type="button" class="btn-close modal-card__btn-close" aria-label="Закрыть"></button>
+        </header>
+        <div class="modal-card__body pt-2 pb-2">
+            <div class="modal-card__img-wrapper">
+                <img :src="currentPost.image" :alt="currentPost.title" class="modal-card__img" width="100%" height="350px">
+            </div>
+            <div class="modal-card__content pt-3 pb-3">
+                <p class="content__text m-0">{{currentPost.content}}</p>
+            </div>
+            <div class="modal-card__widgets pt-3 pb-3">
+                <Widgets :likes="currentPost.likes" :comments="comments"/>
+                <Date :in-date="currentPost.created_at"/>
+            </div>
+        </div>
+    </div>
 </template>
 
 <style scoped lang="scss">
 @import "../../scss/main";
 
+.modal-card__tile {
+    color: #3600ff;
+}
+
+.modal-card__widgets {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-card__content {
+    border-bottom: 3px solid #4C80CE;
+}
+
+.content__text {
+    max-height: 175px;
+    overflow-y: scroll;
+    text-align: justify;
+    line-height: 22px;
+    color: #000;
+    box-shadow: 0 0 5px 0 #0282c0;
+    background-color: #e5deff;
+    border-radius: 5px;
+    padding: 10px;
+    @media (max-width: $lg) {
+        max-height: 215px;
+        font-size: 16px;
+        line-height: 23px;
+    }
+    @media (max-width: $md) {
+        font-size: 14px;
+        line-height: 18px;
+        max-height: 185px;
+        overflow-y: scroll;
+    }
+}
+
+.modal-card__btn-close {
+    transform: translate(10px, 0);
+}
+
 .modal-card {
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 500px;
-    height: 600px;
-    margin-top: -300px;
-    margin-left: -250px;
+    width: 600px;
+    height: 700px;
+    padding: 20px 40px;
+    margin-top: -350px;
+    margin-left: -300px;
     background-color: #ABCDFF;
+    z-index: 3;
+    border-radius: 10px;
+    @media (max-width: $lg) {
+        width: 500px;
+        height: 700px;
+        margin-left: -225px;
+        margin-top: -350px;
+    }
+    @media (max-width: $md) {
+        width: 280px;
+        height: 550px;
+        margin-left: -140px;
+        margin-top: -275px;
+        padding: 10px 15px;
+    }
 }
+
+.modal-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-card__body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.modal-card__img {
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 0 #236585;
+    @media (max-width: $lg) {
+        height: 300px;
+    }
+}
+
 </style>
