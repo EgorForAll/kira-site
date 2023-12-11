@@ -1,14 +1,16 @@
 <script>
-import {mapActions, mapGetters, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import {toRaw} from "vue";
-import ModalCard from "@/components/ModalCard.vue";
+import ModalCard from "./ModalCard.vue";
+import Comments from "./Comments.vue";
 
 export default {
     name: 'Posts',
-    components: {ModalCard},
+    components: {ModalCard, Comments},
     data() {
         return {
-            isCardOpened: true
+            isCardOpened: true,
+            isCommentsShown: false
         }
     },
     methods: {
@@ -17,7 +19,10 @@ export default {
         }),
         ...mapActions({
             setCurrentPost: "posts/setCurrentPost"
-        })
+        }),
+        toggleComment() {
+            this.$data.isCommentsShown = !this.$data.isCommentsShown
+        }
     },
     computed: {
         ...mapGetters({
@@ -26,6 +31,9 @@ export default {
         ...mapGetters({
             currentPost: "posts/getCurrentPost"
         }),
+        ...mapGetters({
+            comments: "comments/getComments"
+        })
     },
     created() {
         this.load()
@@ -50,7 +58,12 @@ export default {
                     <img :src="post.image" :alt="post.title" class="posts__img">
                 </li>
             </ul>
-            <ModalCard v-if="currentPost" :currentPost="currentPost"/>
+            <ModalCard v-if="currentPost" :currentPost="currentPost" :toggle-comment="toggleComment"
+                       :is-comment-shown="isCommentsShown"/>
+            <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInLeft"
+                        leave-active-class="cssanimation fadeOutLeft">
+                <Comments v-if="isCommentsShown && comments.length" :comments="comments"/>
+            </transition>
         </div>
     </section>
 </template>

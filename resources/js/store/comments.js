@@ -7,11 +7,12 @@ export default {
     namespaced: true,
     state: {
         comments: [],
+        isCommentsShown: false
     },
     mutations: {
         SET_COMMENTS(state, payload) {
             state.comments = payload
-        },
+        }
     },
     getters: {
         getComments(state) {
@@ -26,6 +27,6 @@ export default {
             } catch (err) {
                 throw new err;
             }
-        },
+        }
     },
 };

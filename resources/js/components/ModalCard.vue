@@ -1,12 +1,14 @@
 <script>
 import Widgets from "./Widjets.vue";
 import Date from "./Date.vue";
+import Comments from "./Comments.vue";
 import {mapActions, mapGetters} from "vuex";
 import {toRaw} from "vue";
 
 export default {
     name: 'ModalCard',
-    components: {Widgets, Date},
+    components: {Widgets, Date, Comments},
+    props: ['toggleComment', 'isCommentShown'],
     methods: {
         ...mapActions({
             setCurrentPost: "posts/setCurrentPost"
@@ -21,6 +23,9 @@ export default {
             }
             this.$refs.modal.classList.remove('elevateRight')
             this.$refs.modal.classList.add('moveToTop')
+            if (this.$props.isCommentShown) {
+                this.$props.toggleComment()
+            }
             setTimeout(() => setCurrentPost(null), 500)
         },
         onEscDown(e) {
@@ -33,7 +38,7 @@ export default {
             if (!inModal) {
                 this.closeWindow()
             }
-        }
+        },
     },
     computed: {
         ...mapGetters({
@@ -41,7 +46,7 @@ export default {
         }),
         ...mapGetters({
             comments: 'comments/getComments'
-        })
+        }),
     },
     mounted() {
         window.addEventListener('keydown', this.onEscDown)
@@ -72,7 +77,7 @@ export default {
                 <p class="content__text m-0">{{currentPost.content}}</p>
             </div>
             <div class="modal-card__widgets pt-3 pb-3">
-                <Widgets :likes="currentPost.likes" :comments="comments"/>
+                <Widgets :likes="currentPost.likes" :comments="comments" :toggle-comment="toggleComment"/>
                 <Date :in-date="currentPost.created_at"/>
             </div>
         </div>
@@ -131,7 +136,7 @@ export default {
     height: 700px;
     padding: 20px 40px;
     margin-top: -350px;
-    margin-left: -300px;
+    margin-left: -250px;
     background-color: #ABCDFF;
     z-index: 3;
     border-radius: 10px;
