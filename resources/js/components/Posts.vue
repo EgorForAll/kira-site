@@ -62,7 +62,7 @@ export default {
                        :is-comment-shown="isCommentsShown"/>
             <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInLeft"
                         leave-active-class="cssanimation fadeOutLeft">
-                <Comments v-if="isCommentsShown && comments.length" :comments="comments"/>
+                <Comments v-if="isCommentsShown && comments.length > 0" :comments="comments" :toggle-comment="toggleComment"/>
             </transition>
         </div>
     </section>
@@ -103,6 +103,7 @@ export default {
     }
     @media (max-width: $md) {
         height: 150px;
+        padding: 5px;
     }
 }
 

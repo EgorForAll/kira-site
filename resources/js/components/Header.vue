@@ -48,8 +48,8 @@ export default {
         line-height: 23px;
     }
     @media (max-width: $md) {
-        font-size: 16px;
-        line-height: 21px;
+        font-size: 12px;
+        line-height: 25px;
     }
 }
 

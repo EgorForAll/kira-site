@@ -8,7 +8,7 @@ import {toRaw} from "vue";
 export default {
     name: 'ModalCard',
     components: {Widgets, Date, Comments},
-    props: ['toggleComment', 'isCommentShown'],
+    props: ['toggleComment', 'isCommentShown', 'commentRef'],
     methods: {
         ...mapActions({
             setCurrentPost: "posts/setCurrentPost"
@@ -35,7 +35,9 @@ export default {
         },
         onWindowClick(e) {
             const inModal = e.composedPath().includes(this.$refs.modal)
-            if (!inModal) {
+            const commentsModal = document.querySelector('#comments')
+            const inComments = e.composedPath().includes(commentsModal)
+            if (!inModal && !inComments) {
                 this.closeWindow()
             }
         },
@@ -148,9 +150,9 @@ export default {
     }
     @media (max-width: $md) {
         width: 280px;
-        height: 550px;
+        height: 600px;
         margin-left: -140px;
-        margin-top: -275px;
+        margin-top: -300px;
         padding: 10px 15px;
     }
 }
@@ -173,6 +175,10 @@ export default {
     box-shadow: 0 0 5px 0 #236585;
     @media (max-width: $lg) {
         height: 300px;
+    }
+
+    @media (max-width: $md) {
+        height: 275px;
     }
 }
 
