@@ -3,14 +3,18 @@ import {mapActions, mapGetters} from "vuex";
 import {toRaw} from "vue";
 import ModalCard from "./ModalCard.vue";
 import Comments from "./Comments.vue";
+import Pagination from "./Pagination.vue";
+import PostCard from "./PostCard.vue";
 
 export default {
     name: 'Posts',
-    components: {ModalCard, Comments},
+    components: {PostCard, ModalCard, Comments, Pagination},
     data() {
         return {
             isCardOpened: true,
-            isCommentsShown: false
+            isCommentsShown: false,
+            postsPerPage: 9,
+            currentPage: 1,
         }
     },
     methods: {
@@ -22,7 +26,15 @@ export default {
         }),
         toggleComment() {
             this.$data.isCommentsShown = !this.$data.isCommentsShown
-        }
+        },
+        setCurrentPage(value) {
+            this.$data.currentPage = value
+        },
+        findCurrentPosts() {
+            const lastIndex = this.$data.currentPage * this.$data.postsPerPage
+            const firstIndex = lastIndex - this.$data.postsPerPage
+            return this.posts.slice(firstIndex, lastIndex)
+        },
     },
     computed: {
         ...mapGetters({
@@ -33,7 +45,7 @@ export default {
         }),
         ...mapGetters({
             comments: "comments/getComments"
-        })
+        }),
     },
     created() {
         this.load()
@@ -52,18 +64,20 @@ export default {
 <template>
     <section class="posts">
         <div class="container pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-5 pb-lg-5">
-            <ul class="posts__list me-md-0 ms-md-0">
-                <li @click="setCurrentPost(post)" class="posts__item cssanimation fadeIn" v-for="(post, index) in posts"
-                    :key="index">
-                    <img :src="post.image" :alt="post.title" class="posts__img">
-                </li>
-            </ul>
-            <ModalCard v-if="currentPost" :currentPost="currentPost" :toggle-comment="toggleComment"
-                       :is-comment-shown="isCommentsShown"/>
+            <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInt">
+                <ul class="posts__list me-md-0 ms-md-0">
+                    <post-card :set-current-post="setCurrentPost" v-for="(post) in findCurrentPosts()" :post="post" :key="post.id"/>
+                </ul>
+            </transition>
+            <modal-card v-if="currentPost" :currentPost="currentPost" :toggle-comment="toggleComment"
+                        :is-comment-shown="isCommentsShown"/>
             <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInLeft"
                         leave-active-class="cssanimation fadeOutLeft">
-                <Comments v-if="isCommentsShown && comments.length > 0" :comments="comments" :toggle-comment="toggleComment"/>
+                <comments v-if="isCommentsShown && comments.length > 0" :comments="comments"
+                          :toggle-comment="toggleComment"/>
             </transition>
+            <pagination :current-page="currentPage" :total-posts="posts.length" :toggle-page="setCurrentPage"
+                        :posts-per-page="postsPerPage"/>
         </div>
     </section>
 </template>
@@ -71,41 +85,6 @@ export default {
 <style scoped lang="scss">
 @import "../../scss/main";
 
-.posts__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.posts__item {
-    position: relative;
-    width: 100%;
-    height: 400px;
-    padding: 10px;
-    background-color: $blue;
-
-    &:hover {
-        &::before {
-            position: absolute;
-            top: 0;
-            left: 0;
-            content: '';
-            width: 100%;
-            height: 100%;
-            @include trans(background-color, 0.2s);
-            background-color: rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-        }
-    }
-
-    @media (max-width: $lg) {
-        height: 250px;
-    }
-    @media (max-width: $md) {
-        height: 150px;
-        padding: 5px;
-    }
-}
 
 .posts__list {
     display: grid;

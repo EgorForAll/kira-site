@@ -19,7 +19,7 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'post_id' => random_int(1, 50),
+            'post_id' => random_int(1, 23),
             'user' => $this->faker->userName,
             'comment' => $this->faker->sentence
         ];

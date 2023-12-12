@@ -24,7 +24,7 @@ export default {
                 <div class="comment__text">{{ comment.comment }}</div>
                 <div class="comment__attributes">
                     <span class="comment__user">{{ comment.user }}</span>
-                    <Date :in-date="comment.created_at"/>
+                    <date :in-date="comment.created_at"/>
                 </div>
             </li>
         </ul>

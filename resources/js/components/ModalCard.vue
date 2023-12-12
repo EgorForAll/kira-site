@@ -79,8 +79,8 @@ export default {
                 <p class="content__text m-0">{{currentPost.content}}</p>
             </div>
             <div class="modal-card__widgets pt-3 pb-3">
-                <Widgets :likes="currentPost.likes" :comments="comments" :toggle-comment="toggleComment"/>
-                <Date :in-date="currentPost.created_at"/>
+                <widgets :likes="currentPost.likes" :comments="comments" :toggle-comment="toggleComment"/>
+                <date :in-date="currentPost.created_at"/>
             </div>
         </div>
     </div>
