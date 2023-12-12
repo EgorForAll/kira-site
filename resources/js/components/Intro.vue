@@ -4,13 +4,14 @@ import ListSVG from "../../assets/images/list.svg?component"
 import TableSVG from "../../assets/images/table.svg?component"
 
 export default {
-    name: 'Intro',
+    name: 'Introduction',
+    props: ['isTableView'],
     components: {ListSVG, TableSVG},
     data() {
         return {
             avatarUrl: KiraAvatar
         }
-    }
+    },
 }
 </script>
 
@@ -29,10 +30,10 @@ export default {
                         своей радостью со всеми вами!
                     </p>
                     <div class="intro__views">
-                        <button class="intro__btn">
+                        <button class="intro__btn" :disabled="!isTableView" @click="$emit('setView')">
                             <ListSVG/>
                         </button>
-                        <button class="intro__btn">
+                        <button class="intro__btn" :disabled="isTableView" @click="$emit('setView')">
                             <TableSVG/>
                         </button>
                     </div>
@@ -59,6 +60,10 @@ export default {
     }
 
     &:active {
+        background-color: #ABCDFF;
+    }
+
+    &:disabled {
         background-color: #ABCDFF;
     }
 

@@ -4,8 +4,13 @@ import CommentSVG from "../../assets/images/comment.svg"
 
 export default {
     name: 'Widgets',
-    props: ['likes', 'comments', 'toggleComment'],
+    props: ['likes', 'comments'],
     components: {HeartSVG, CommentSVG},
+    methods: {
+        onClickBtn() {
+            this.$emit('showComments')
+        }
+    }
 }
 </script>
 
@@ -19,7 +24,7 @@ export default {
         </div>
         <div class="widgets__button-wrapper">
             <span class="widgets__number">{{comments.length}}</span>
-            <button @click="toggleComment()" class="widgets__button btn-comment">
+            <button @click="onClickBtn" class="widgets__button btn-comment">
                 <CommentSVG/>
             </button>
         </div>

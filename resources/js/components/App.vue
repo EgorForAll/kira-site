@@ -1,10 +1,30 @@
 <script>
+import {mapActions, mapGetters} from "vuex";
 import Header from "./Header.vue"
-import Intro from "@/components/Intro.vue";
-import Posts from "@/components/Posts.vue";
+import Introduction from "./Intro.vue";
+import PostsTable from "./PostsTable.vue";
+import PostList from "./PostList.vue";
 export default  {
     name: 'App',
-    components: {Header, Intro, Posts}
+    components: {Introduction, PostsTable, Header, PostList},
+    data() {
+        return {
+            isTableView: false
+        }
+    },
+    methods: {
+        ...mapActions({
+            load: 'posts/fetchPosts'
+        }),
+    },
+    computed: {
+        ...mapGetters({
+            posts: "posts/getPosts"
+        })
+    },
+    created() {
+        this.load()
+    },
 }
 </script>
 
@@ -13,8 +33,9 @@ export default  {
     <div class="root">
         <Header/>
         <main>
-            <Intro/>
-            <Posts />
+            <introduction @set-view="isTableView = !isTableView"  :is-table-view="isTableView"/>
+            <posts-table v-if="isTableView" :posts="posts"/>
+            <post-list v-else  :posts="posts" />
         </main>
 
     </div>

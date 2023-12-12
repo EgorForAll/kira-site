@@ -9,6 +9,7 @@ import PostCard from "./PostCard.vue";
 export default {
     name: 'Posts',
     components: {PostCard, ModalCard, Comments, Pagination},
+    props: ['posts'],
     data() {
         return {
             isCardOpened: true,
@@ -18,9 +19,6 @@ export default {
         }
     },
     methods: {
-        ...mapActions({
-            load: 'posts/fetchPosts'
-        }),
         ...mapActions({
             setCurrentPost: "posts/setCurrentPost"
         }),
@@ -38,17 +36,11 @@ export default {
     },
     computed: {
         ...mapGetters({
-            posts: "posts/getPosts"
-        }),
-        ...mapGetters({
             currentPost: "posts/getCurrentPost"
         }),
         ...mapGetters({
             comments: "comments/getComments"
         }),
-    },
-    created() {
-        this.load()
     },
     updated() {
         const currentPost = toRaw(this.$store.state.posts.currentPost);
