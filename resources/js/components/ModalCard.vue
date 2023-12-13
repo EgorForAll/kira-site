@@ -41,6 +41,9 @@ export default {
                 this.closeWindow()
             }
         },
+        currentComments(id) {
+            return this.comments.filter((item) => item.post_id === id)
+        }
     },
     computed: {
         ...mapGetters({
@@ -58,10 +61,6 @@ export default {
         window.removeEventListener('keydown', this.onEscDown)
         window.removeEventListener('click', this.onWindowClick)
     },
-    created() {
-        const postId = toRaw(this.currentPost).id;
-        this.loadComments(postId)
-    }
 }
 </script>
 
@@ -79,7 +78,7 @@ export default {
                 <p class="content__text m-0">{{currentPost.content}}</p>
             </div>
             <div class="modal-card__widgets pt-3 pb-3">
-                <widgets :likes="currentPost.likes" :comments="comments" @show-comments="toggleComment()"/>
+                <widgets :likes="currentPost.likes" :comments="currentComments(currentPost.id)" @show-comments="toggleComment()"/>
                 <date :in-date="currentPost.created_at"/>
             </div>
         </div>

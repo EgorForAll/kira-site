@@ -10,8 +10,7 @@ export default  {
     components: {Introduction, PostsTable, Header, PostList},
     data() {
         return {
-            isTableView: false,
-            currentPage: 1,
+            isTableView: true,
         }
     },
     methods: {
@@ -21,11 +20,6 @@ export default  {
         ...mapActions({
             loadComments: "comments/fetchComments"
         }),
-        setCurrentPage(value) {
-            if (this.$data.isTableView) {
-                this.$data.currentPage = value;
-            }
-        },
     },
     computed: {
         ...mapGetters({
@@ -54,8 +48,8 @@ export default  {
         <Header/>
         <main>
             <introduction @set-view="isTableView = !isTableView"  :is-table-view="isTableView"/>
-            <posts-table @togglePage="setCurrentPage" v-if="isTableView" :posts="posts" :current-posts="currentPosts" :posts-per-page="postsPerPage" :current-page="currentPage"/>
-            <post-list v-else  :posts="posts" @loadMore="setCurrentPage" :comments="comments"/>
+            <posts-table v-if="isTableView" :posts="posts"  :posts-per-page="postsPerPage"/>
+            <post-list v-else  :posts="posts"  :comments="comments"/>
         </main>
 
     </div>

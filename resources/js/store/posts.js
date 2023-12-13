@@ -55,8 +55,8 @@ export default {
                 throw new err;
             }
         },
-        setCurrentPost ({commit}) {
-            commit('SET_CURRENT_POST')
+        setCurrentPost ({commit}, payload) {
+            commit('SET_CURRENT_POST', payload)
         },
         setPostsPerPage({commit}) {
             commit('SET_POSTS_PER_PAGE')

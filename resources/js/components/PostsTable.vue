@@ -1,15 +1,15 @@
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapGetters} from "vuex";
 import {toRaw} from "vue";
 import ModalCard from "./ModalCard.vue";
 import Comments from "./Comments.vue";
-import Pagination from "./PaginationTabel.vue";
+import Pagination from "./Pagiantion.vue";
 import PostCard from "./PostCard.vue";
 
 export default {
     name: 'Posts',
     components: {PostCard, ModalCard, Comments, Pagination},
-    props: ['posts', 'postsPerPage', 'currentPage', 'currentPosts'],
+    props: ['posts', 'postsPerPage', 'currentPage'],
     data() {
         return {
             isCardOpened: true,
@@ -17,16 +17,13 @@ export default {
         }
     },
     methods: {
-        ...mapActions({
-            setCurrentPost: "posts/setCurrentPost"
-        }),
         toggleComment() {
             this.$data.isCommentsShown = !this.$data.isCommentsShown
         },
-        setCurrentPage(value) {
-            this.$emit('togglePage', value);
+        currentComments() {
+            const totalComments = toRaw(this.comments)
+            return totalComments.filter((item) => item.post_id === this.currentPost.id)
         }
-
     },
     computed: {
         ...mapGetters({
@@ -42,7 +39,7 @@ export default {
 
             document.querySelector('body').classList.add('overlay')
         }
-    }
+    },
 
 }
 </script>
@@ -52,18 +49,17 @@ export default {
         <div class="container pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-5 pb-lg-5">
             <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInt">
                 <ul class="posts__list me-md-0 ms-md-0">
-                    <post-card :set-current-post="setCurrentPost" v-for="(post) in currentPosts" :post="post" :key="post.id"/>
+                    <post-card  v-for="(post, index) in posts" :post="post" :key="index"/>
                 </ul>
             </transition>
             <modal-card v-if="currentPost" :currentPost="currentPost" :toggle-comment="toggleComment"
                         :is-comment-shown="isCommentsShown"/>
             <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInLeft"
                         leave-active-class="cssanimation fadeOutLeft">
-                <comments v-if="isCommentsShown && comments.length > 0" :comments="comments"
+                <comments v-if="isCommentsShown && comments.length > 0" :comments="currentComments()"
                           :toggle-comment="toggleComment"/>
             </transition>
-            <pagination :current-page="currentPage" :total-posts="posts.length" @togglePage="setCurrentPage"
-                        :posts-per-page="postsPerPage"/>
+            <pagination/>
         </div>
     </section>
 </template>

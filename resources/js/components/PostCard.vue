@@ -1,12 +1,25 @@
 <script>
+import {mapActions} from "vuex";
+import {toRaw} from "vue";
+
 export default {
     name: 'PostCard',
-    props: ['setCurrentPost', 'post']
+    props: ['post'],
+    methods: {
+        ...mapActions({
+            setCurrentPost: "posts/setCurrentPost"
+        }),
+    },
+    computed: {
+        currentPost() {
+            return toRaw(this.$props.post)
+        }
+    }
 }
 </script>
 
 <template>
-    <li @click="setCurrentPost(post)" class="posts__item cssanimation fadeInTop">
+    <li @click="setCurrentPost(currentPost)" class="posts__item cssanimation fadeInTop">
         <img :src="post.image" :alt="post.title" class="posts__img">
     </li>
 </template>

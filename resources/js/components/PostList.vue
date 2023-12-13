@@ -1,6 +1,6 @@
 <script>
 import ListCard from "./ListCard.vue";
-import PaginationList from "./PagiantionList.vue";
+import PaginationList from "./Pagiantion.vue";
 
 
 export default {
