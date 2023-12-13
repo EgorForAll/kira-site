@@ -1,13 +1,39 @@
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default  {
     name: 'PaginationList',
-    props: ['posts', 'currentPosts']
+    methods: {
+        ...mapActions({
+            setPostsPerPage: "posts/setPostsPerPage",
+            load: 'posts/fetchPosts'
+        }),
+        loadMore() {
+            this.load(this.links.next)
+        },
+        isLastPage() {
+            if (this.meta.current_page === this.meta.last_page) {
+                return true
+            }
+        }
+    },
+    computed: {
+        ...mapGetters({
+            postsPerPage: "posts/getPostsPerPage"
+        }),
+        ...mapGetters({
+            links: "posts/getLinks"
+        }),
+        ...mapGetters({
+            meta: "posts/getMeta"
+        })
+    }
 }
 </script>
 
 <template>
     <div class="pagination pt-lg-5 pb-lg-5">
-        <button @click="$emit('loadMore')" class="pagination__button" :disabled="posts.length === currentPosts.length">{{posts.length === currentPosts.length ? 'Посты закончились(' : 'Загрузить еще'}}</button>
+        <button @click="loadMore" class="pagination__button" :disabled="isLastPage()">{{isLastPage() ? 'Посты закончились' : 'Загрузить еще'}}</button>
     </div>
 </template>
 

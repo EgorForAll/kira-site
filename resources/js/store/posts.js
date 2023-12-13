@@ -1,20 +1,29 @@
-const loadPosts = () =>
-    fetch("http://127.0.0.1:8000/posts").then((res) =>
-        res.json()
-    ).then((res) => res.data);
+const loadPosts = (url) =>
+    fetch(url).then((res) => res.json());
 
 export default {
     namespaced: true,
     state: {
         posts: [],
         currentPost: null,
+        links: null,
+        meta: null
     },
     mutations: {
         SET_POSTS(state, payload) {
-            state.posts = payload
+            state.posts = state.posts.concat(payload)
         },
         SET_CURRENT_POST(state, payload) {
             state.currentPost = payload
+        },
+        SET_POST_PER_PAGE(state) {
+            state.postsPerPage = state.postsPerPage + 9
+        },
+        SET_META(state, payload) {
+            state.meta = payload
+        },
+        SET_LINKS(state, payload) {
+            state.links = payload
         }
     },
     getters: {
@@ -23,19 +32,33 @@ export default {
         },
         getCurrentPost(state) {
             return state.currentPost
+        },
+        getPostsPerPage(state) {
+            return state.postsPerPage
+        },
+        getLinks(state) {
+            return state.links
+        },
+        getMeta(state) {
+            return state.meta
         }
     },
     actions: {
-        async fetchPosts({commit}) {
+        async fetchPosts({commit}, url) {
             try {
-                const request = await loadPosts();
-                commit("SET_POSTS", request);
+                const {data, meta, links} = await loadPosts(url);
+                commit("SET_POSTS", data);
+                commit("SET_LINKS", links);
+                commit("SET_META", meta);
             } catch (err) {
                 throw new err;
             }
         },
-        setCurrentPost ({commit}, post) {
-            commit('SET_CURRENT_POST', post)
+        setCurrentPost ({commit}) {
+            commit('SET_CURRENT_POST')
+        },
+        setPostsPerPage({commit}) {
+            commit('SET_POST_PER_PAGE')
         }
     },
 };

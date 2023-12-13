@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TotalPostsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
@@ -18,7 +19,6 @@ use App\Http\Controllers\CommentController;
 Route::get('/', function () {
     return view('welcome');
 });
-
 
 Route::get('/posts', PostController::class . '@index');
 Route::get('/comments/{post_id}', CommentController::class . '@index');
