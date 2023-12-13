@@ -16,9 +16,6 @@ export default {
         SET_CURRENT_POST(state, payload) {
             state.currentPost = payload
         },
-        SET_POST_PER_PAGE(state) {
-            state.postsPerPage = state.postsPerPage + 9
-        },
         SET_META(state, payload) {
             state.meta = payload
         },
@@ -32,9 +29,6 @@ export default {
         },
         getCurrentPost(state) {
             return state.currentPost
-        },
-        getPostsPerPage(state) {
-            return state.postsPerPage
         },
         getLinks(state) {
             return state.links
@@ -57,8 +51,5 @@ export default {
         setCurrentPost ({commit}) {
             commit('SET_CURRENT_POST')
         },
-        setPostsPerPage({commit}) {
-            commit('SET_POST_PER_PAGE')
-        }
     },
 };

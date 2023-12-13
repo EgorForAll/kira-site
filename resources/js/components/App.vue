@@ -31,15 +31,9 @@ export default  {
         ...mapGetters(({
             postsPerPage: "posts/getPostsPerPage"
         })),
-        currentPosts() {
-            const lastIndex = this.$data.currentPage * this.$data.postsPerPage
-            if (this.$data.isTableView) {
-                const firstIndex = lastIndex - this.$data.postsPerPage
-                return this.posts.slice(firstIndex, lastIndex)
-            } else {
-                return this.posts.slice(0, this.$data.postsPerPage);
-            }
-        },
+        ...mapGetters({
+            comments: 'comments/getComments'
+        }),
     },
     created() {
         this.load(`http://127.0.0.1:8000/posts`)
@@ -54,7 +48,7 @@ export default  {
         <main>
             <introduction @set-view="isTableView = !isTableView"  :is-table-view="isTableView"/>
             <posts-table @togglePage="setCurrentPage" v-if="isTableView" :posts="posts" :current-posts="currentPosts" :posts-per-page="postsPerPage" :current-page="currentPage"/>
-            <post-list v-else  :posts="posts" :current-posts="currentPosts" @loadMore="setCurrentPage"/>
+            <post-list v-else  :posts="posts" @loadMore="setCurrentPage"/>
         </main>
 
     </div>

@@ -5,7 +5,6 @@ export default  {
     name: 'PaginationList',
     methods: {
         ...mapActions({
-            setPostsPerPage: "posts/setPostsPerPage",
             load: 'posts/fetchPosts'
         }),
         loadMore() {
@@ -18,9 +17,6 @@ export default  {
         }
     },
     computed: {
-        ...mapGetters({
-            postsPerPage: "posts/getPostsPerPage"
-        }),
         ...mapGetters({
             links: "posts/getLinks"
         }),
