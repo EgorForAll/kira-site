@@ -3,20 +3,13 @@ import Widgets from "./Widjets.vue";
 import Date from "./Date.vue";
 
 
-const loadComments = async (postId) => {
-    const response =  await fetch(`http://127.0.0.1:8000/comments/${postId}`);
-    const json = await response.json();
-    return json.data
-}
-
 export default {
     name: 'ListCard',
-    props: ['post'],
+    props: ['post', 'comments'],
     components: {Widgets, Date},
     data() {
         return {
             isCommentShow: false,
-            comments: []
         }
     },
     methods: {
@@ -24,9 +17,6 @@ export default {
             this.$data.isCommentShow = !this.$data.isCommentShow
         },
     },
-    created() {
-        loadComments(this.$props.post.id).then(comments => this.$data.comments = comments)
-    }
 }
 </script>
 

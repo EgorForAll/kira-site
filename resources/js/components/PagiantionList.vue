@@ -5,13 +5,21 @@ export default  {
     name: 'PaginationList',
     methods: {
         ...mapActions({
-            load: 'posts/fetchPosts'
+            loadPosts: 'posts/fetchPosts'
+        }),
+        ...mapActions({
+            loadComments: "comments/fetchComments"
+        }),
+        ...mapActions({
+           setPostsPerPage: 'posts/setPostsPerPage'
         }),
         loadMore() {
-            this.load(this.links.next)
+            this.loadPosts(this.links.next)
+            this.setPostsPerPage();
+            this.loadComments(this.postsPerPage)
         },
         isLastPage() {
-            if (this.meta.current_page === this.meta.last_page) {
+            if (this.meta && (this.meta.current_page === this.meta.last_page)) {
                 return true
             }
         }
@@ -22,6 +30,9 @@ export default  {
         }),
         ...mapGetters({
             meta: "posts/getMeta"
+        }),
+        ...mapGetters({
+            postsPerPage: 'posts/getPostsPerPage'
         })
     }
 }

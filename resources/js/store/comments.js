@@ -7,7 +7,7 @@ export default {
     namespaced: true,
     state: {
         comments: [],
-        isCommentsShown: false
+        isCommentsShown: false,
     },
     mutations: {
         SET_COMMENTS(state, payload) {

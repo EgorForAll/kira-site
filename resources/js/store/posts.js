@@ -7,7 +7,8 @@ export default {
         posts: [],
         currentPost: null,
         links: null,
-        meta: null
+        meta: null,
+        postsPerPage: 9
     },
     mutations: {
         SET_POSTS(state, payload) {
@@ -21,6 +22,9 @@ export default {
         },
         SET_LINKS(state, payload) {
             state.links = payload
+        },
+        SET_POSTS_PER_PAGE(state) {
+            state.postsPerPage = state.postsPerPage + 9
         }
     },
     getters: {
@@ -35,6 +39,9 @@ export default {
         },
         getMeta(state) {
             return state.meta
+        },
+        getPostsPerPage(state) {
+            return state.postsPerPage
         }
     },
     actions: {
@@ -51,5 +58,8 @@ export default {
         setCurrentPost ({commit}) {
             commit('SET_CURRENT_POST')
         },
+        setPostsPerPage({commit}) {
+            commit('SET_POSTS_PER_PAGE')
+        }
     },
 };
