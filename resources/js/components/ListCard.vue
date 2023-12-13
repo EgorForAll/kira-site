@@ -32,10 +32,10 @@ export default {
         <div class="card__img-wrapper">
             <img :src="post.image" :alt="post.title" width="100%" class="card__img">
         </div>
-        <div class="card__content pt-lg-3 pb-lg-3">
+        <div class="card__content pt-md-2 pb-md-2">
             <p class="card__text">{{ post.content }}</p>
         </div>
-        <div class="card__widgets pt-lg-3 pb-lg-3">
+        <div class="card__widgets pt-lg-3 pb-lg-3 pb-md-3 pt-md-3 pt-2 pb-2">
             <widgets :likes="post.likes" :comments="comments" @showComments="toggleComment()"/>
             <date :in-date="post.created_at"/>
         </div>
@@ -54,6 +54,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
+@import "../../scss/main";
 .list__card {
     width: 100%;
     padding: 20px 40px;
@@ -65,24 +66,42 @@ export default {
         margin-bottom: 0;
     }
 
+
 }
 
 .card__img {
     object-fit: cover;
     box-shadow: 0 0 7px 5px #5d797c;
     border-radius: 10px;
-    height: 500px;
+    height: 400px;
+    @media (max-width: $lg) {
+        height: 350px;
+    }
+    @media (max-width: $md) {
+        height: 220px;
+    }
 }
 
 .card__title {
     color: #3600ff;
     font-size: 20px;
+    @media (max-width: $lg) {
+        font-size: 18px;
+    }
+
+    @media (max-width: $md) {
+        font-size: 14px;
+    }
 }
 
 .card__widgets {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .widgets__number {
+        font-size: 14px;
+    }
 }
 
 .card__content {
@@ -97,5 +116,17 @@ export default {
     max-height: 300px;
     overflow-y: scroll;
     padding: 10px 20px;
+
+    @media (max-width: $lg) {
+        font-size: 16px;
+        line-height: 21px;
+        padding: 10px;
+    }
+
+    @media (max-width: $md) {
+        font-size: 14px;
+        padding: 10px 0;
+        line-height: 18px;
+    }
 }
 </style>

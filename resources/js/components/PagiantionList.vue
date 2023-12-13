@@ -39,7 +39,7 @@ export default  {
 </script>
 
 <template>
-    <div class="pagination pt-lg-5 pb-lg-5">
+    <div class="pagination pt-lg-5 pb-lg-5 pt-4 pb-4">
         <button @click="loadMore" class="pagination__button" :disabled="isLastPage()">{{isLastPage() ? 'Посты закончились' : 'Загрузить еще'}}</button>
     </div>
 </template>
@@ -63,10 +63,16 @@ export default  {
         background-color: #4C80CE;
     }
 
-
     &:disabled {
         background-color: #4a5568;
         color: #fff;
+    }
+
+    @media (max-width: $lg) {
+        font-size: 16px;
+    }
+    @media (max-width: $md) {
+        font-size: 14px;
     }
 }
 </style>

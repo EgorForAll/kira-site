@@ -38,7 +38,7 @@ export default {
     color: #000;
     margin-right: 5px;
 
-    @media (max-width: $md) {
+    @media (max-width: $lg) {
         font-size: 14px;
     }
 }
