@@ -1,7 +1,7 @@
 <script>
 import Widgets from "./Widjets.vue";
 import Date from "./Date.vue";
-
+import {observer} from "../utils.js";
 
 export default {
     name: 'ListCard',
@@ -17,11 +17,15 @@ export default {
             this.$data.isCommentShow = !this.$data.isCommentShow
         },
     },
+    mounted() {
+        this.$refs.listItem.style.visibility = 'hidden'
+        observer.observe(this.$refs.listItem)
+    }
 }
 </script>
 
 <template>
-    <li class="list__card">
+    <li class="list__card cssanimation" ref="listItem">
         <header class="card__header pb-3 pt-0">
             <span class="card__title">#{{ post.title }}</span>
         </header>
@@ -37,7 +41,7 @@ export default {
         </div>
         <div class="card__comments" v-if="isCommentShow">
             <ul class="comments__list">
-                <li class="comments__item" v-for="(comments) in comments" :key="comment.id">
+                <li ref="listItem" class="comments__item" v-for="(comments) in comments" :key="comment.id">
                     <div class="comments__text">{{ comment.comment }}</div>
                     <div class="comments__attr">
                         <span class="comments__user">{{ comment.user }}</span>
