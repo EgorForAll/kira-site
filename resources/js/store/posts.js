@@ -7,7 +7,7 @@ export default {
     namespaced: true,
     state: {
         posts: [],
-        currentPost: null
+        currentPost: null,
     },
     mutations: {
         SET_POSTS(state, payload) {

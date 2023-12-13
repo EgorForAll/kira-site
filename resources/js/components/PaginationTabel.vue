@@ -11,8 +11,8 @@ export default {
             return pageNumbers;
         },
         onClick(value) {
-            window.scrollTo(0, 150);
-            this.$props.togglePage(value);
+            window.scrollTo(0, 100);
+            this.$emit('togglePage', value);
         }
     }
 }

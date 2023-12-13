@@ -1,9 +1,10 @@
 <script>
 import ListCard from "./ListCard.vue";
+import PaginationList from "./PagiantionList.vue";
 export default {
     name: 'PostList',
-    props: ['posts'],
-    components: {ListCard}
+    props: ['posts', 'currentPosts'],
+    components: {ListCard, PaginationList}
 }
 </script>
 
@@ -11,8 +12,9 @@ export default {
     <section class="posts">
         <div class="container pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-5 pb-lg-5">
             <ul class="posts__list">
-                <list-card v-for="(post) in posts" :key="post.id" :post="post"/>
+                <list-card v-for="(post) in currentPosts" :key="post.id" :post="post"/>
             </ul>
+            <pagination-list @loadMore="$emit('loadMore')" :posts="posts" :current-posts="currentPosts"/>
         </div>
     </section>
 </template>

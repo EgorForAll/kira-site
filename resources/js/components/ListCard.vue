@@ -4,7 +4,9 @@ import Date from "./Date.vue";
 
 
 const loadComments = async (postId) => {
-    return  await fetch(`http://127.0.0.1:8000/comments/${postId}`).then(res => res.json());
+    const response =  await fetch(`http://127.0.0.1:8000/comments/${postId}`);
+    const json = await response.json();
+    return json.data
 }
 
 export default {
@@ -23,7 +25,7 @@ export default {
         },
     },
     created() {
-        this.$data.comments = loadComments(this.$props.post.id)
+        loadComments(this.$props.post.id).then(comments => this.$data.comments = comments)
     }
 }
 </script>
