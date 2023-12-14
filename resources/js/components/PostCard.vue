@@ -19,7 +19,7 @@ export default {
 </script>
 
 <template>
-    <li @click="setCurrentPost(currentPost)" class="posts__item cssanimation fadeInTop">
+    <li @click="setCurrentPost(currentPost)" class="posts__item cssanimation fadeInBottom">
         <img :src="post.image" :alt="post.title" class="posts__img">
     </li>
 </template>

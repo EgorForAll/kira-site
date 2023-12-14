@@ -1,7 +1,7 @@
 <script>
 import Widgets from "./Widjets.vue";
 import Date from "./Date.vue";
-import Comments from "./Comments.vue";
+import Comments from "./CommentsModal.vue";
 import {mapActions, mapGetters} from "vuex";
 import {toRaw} from "vue";
 
@@ -108,8 +108,7 @@ export default {
     text-align: justify;
     line-height: 22px;
     color: #000;
-    box-shadow: 0 0 5px 0 #0282c0;
-    background-color: #e5deff;
+    background-color: transparent;
     border-radius: 5px;
     padding: 10px;
     @media (max-width: $lg) {

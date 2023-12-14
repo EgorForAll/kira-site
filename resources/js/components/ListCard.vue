@@ -1,15 +1,20 @@
 <script>
 import Widgets from "./Widjets.vue";
 import Date from "./Date.vue";
+import BalloonComment from "./ui/BalloonComment.vue";
 import {observer} from "../utils.js";
+import CommentForm from "./ui/CommentForm.vue";
+import CommentLeaveBtn from "./ui/CommentLeaveBtn.vue";
+import ChatBackground from "../../assets/images/chat-background.jpg?component"
 
 export default {
     name: 'ListCard',
     props: ['post', 'comments'],
-    components: {Widgets, Date},
+    components: {CommentForm, BalloonComment, Widgets, Date, CommentLeaveBtn},
     data() {
         return {
             isCommentShow: false,
+            isAddNewComment: false
         }
     },
     methods: {
@@ -39,22 +44,76 @@ export default {
             <widgets :likes="post.likes" :comments="comments" @showComments="toggleComment()"/>
             <date :in-date="post.created_at"/>
         </div>
-        <div class="card__comments" v-if="isCommentShow">
-            <ul class="comments__list">
-                <li ref="listItem" class="comments__item" v-for="(comments) in comments" :key="comment.id">
-                    <div class="comments__text">{{ comment.comment }}</div>
-                    <div class="comments__attr">
-                        <span class="comments__user">{{ comment.user }}</span>
-                        <span class="comments__date">{{ comment.created_at }}</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        <transition name="custom-classes-transition"
+                    enter-active-class="cssanimation fadeIn">
+            <div class="card__comments" v-if="isCommentShow">
+                <div class="comments__header pb-2">
+                    <button class="comments__remove" @click="isCommentShow = !isCommentShow">Скрыть комментарии</button>
+                </div>
+                <ul class="comments__list">
+                    <balloon-comment :comments="comments"/>
+                </ul>
+                <div class="comment__footer">
+                    <comment-leave-btn :is-add-new-comment="isAddNewComment"
+                                       @onClickBtn="isAddNewComment = !isAddNewComment"/>
+                    <transition name="custom-classes-transition"
+                                enter-active-class="cssanimation fadeIn"
+                                leave-active-class="cssanimation fadeOut">
+                        <CommentForm :is-add-new-comment="isAddNewComment"/>
+                    </transition>
+                </div>
+            </div>
+        </transition>
     </li>
 </template>
 
 <style scoped lang="scss">
 @import "../../scss/main";
+
+.comment__footer {
+    padding: 20px;
+}
+
+.comments__header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+.comments__remove {
+    background-color: #d5b5d3;
+    padding: 5px 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    transition: color, background-color, 0.3s ease;
+
+    @media (max-width: $md) {
+        font-size: 12px;
+    }
+
+    &:hover {
+        color: #000;
+        background-color: #5d797c;
+    }
+}
+
+.comments__list {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.card__comments {
+    background-color: #cdbfff;
+    border-radius: 10px;
+    border: 1px solid #5d47a9;
+    background-image: url("../../assets/images/chat-background.jpg");
+    background-size: 100% auto;
+    background-clip: border-box;
+}
+
 .list__card {
     width: 100%;
     padding: 20px 40px;

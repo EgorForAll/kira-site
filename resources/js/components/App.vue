@@ -28,9 +28,6 @@ export default  {
         ...mapGetters({
             posts: "posts/getPosts"
         }),
-        ...mapGetters(({
-            postsPerPage: "posts/getPostsPerPage"
-        })),
         ...mapGetters({
             comments: 'comments/getComments'
         }),

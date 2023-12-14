@@ -2,14 +2,14 @@
 import {mapGetters} from "vuex";
 import {toRaw} from "vue";
 import ModalCard from "./ModalCard.vue";
-import Comments from "./Comments.vue";
+import Comments from "./CommentsModal.vue";
 import Pagination from "./Pagiantion.vue";
 import PostCard from "./PostCard.vue";
 
 export default {
     name: 'Posts',
     components: {PostCard, ModalCard, Comments, Pagination},
-    props: ['posts', 'postsPerPage', 'currentPage'],
+    props: ['posts'],
     data() {
         return {
             isCardOpened: true,
