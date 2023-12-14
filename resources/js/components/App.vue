@@ -4,10 +4,11 @@ import Header from "./Header.vue"
 import Introduction from "./Intro.vue";
 import PostsTable from "./PostsTable.vue";
 import PostList from "./PostList.vue";
+import Footer from "./Footer.vue";
 
 export default  {
     name: 'App',
-    components: {Introduction, PostsTable, Header, PostList},
+    components: {Introduction, PostsTable, Header, PostList, Footer},
     data() {
         return {
             isTableView: true,
@@ -48,7 +49,7 @@ export default  {
             <posts-table v-if="isTableView" :posts="posts"  :posts-per-page="postsPerPage"/>
             <post-list v-else  :posts="posts"  :comments="comments"/>
         </main>
-
+        <Footer />
     </div>
 </template>
 
