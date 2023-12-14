@@ -44,8 +44,9 @@ export default {
     @include trans(background-color, 0.2s);
 
     @media (max-width: $md) {
-        font-size: 14px;
+        font-size: 12px;
         width: 130px;
+        margin-top: 10px;
         height: 30px;
     }
 
@@ -89,5 +90,6 @@ export default {
 .comment__form {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 </style>

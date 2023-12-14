@@ -25,6 +25,7 @@ export default {
 
     @media (max-width: $md) {
         font-size: 12px;
+        padding: 5px;
     }
 
     &:hover {

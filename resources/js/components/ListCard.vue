@@ -72,12 +72,21 @@ export default {
 
 .comment__footer {
     padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    @media (max-width: 400px) {
+        justify-content: center;
+        padding: 10px 15px;
+    }
 }
 
 .comments__header {
     display: flex;
     justify-content: flex-end;
     padding: 20px;
+    @media (max-width: $md) {
+        padding: 10px 15px;
+    }
 }
 
 .comments__remove {
@@ -90,7 +99,8 @@ export default {
     transition: color, background-color, 0.3s ease;
 
     @media (max-width: $md) {
-        font-size: 12px;
+        font-size: 10px;
+        padding: 5px;
     }
 
     &:hover {
@@ -103,6 +113,9 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 20px;
+    @media (max-width: $md) {
+        padding: 10px 15px;
+    }
 }
 
 .card__comments {
@@ -125,6 +138,9 @@ export default {
         margin-bottom: 0;
     }
 
+    @media (max-width: $md) {
+        padding: 10px 20px;
+    }
 
 }
 

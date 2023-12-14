@@ -64,6 +64,7 @@ export default {
     }
 
     @media (max-width: $md) {
+        width: 85%;
         font-size: 12px;
         line-height: 16px;
     }

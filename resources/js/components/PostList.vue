@@ -34,15 +34,16 @@ export default {
 }
 
 .posts__list {
-    margin: 0;
-    padding: 0 300px;
+    width: 50%;
+    margin: 0 auto;
 
     @media (max-width: $lg) {
-        padding: 0 70px;
+        width: 80%;
     }
 
+
     @media (max-width: $md) {
-        padding: 0 20px;
+        width: 85%;
     }
 }
 </style>
