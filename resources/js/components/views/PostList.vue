@@ -1,6 +1,6 @@
 <script>
-import ListCard from "./ListCard.vue";
-import PaginationList from "./Pagiantion.vue";
+import ListCard from "../blocks/ListCard.vue";
+import PaginationList from "../ui/Pagiantion.vue";
 
 
 export default {
@@ -27,7 +27,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 .posts {
     width: 100%;

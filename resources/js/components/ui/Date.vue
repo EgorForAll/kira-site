@@ -72,7 +72,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 .widgets__date {
     font-size: 18px;
     display: block;

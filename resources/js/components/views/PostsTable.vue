@@ -1,10 +1,10 @@
 <script>
 import {mapGetters} from "vuex";
 import {toRaw} from "vue";
-import ModalCard from "./ModalCard.vue";
-import Comments from "./CommentsModal.vue";
-import Pagination from "./Pagiantion.vue";
-import PostCard from "./PostCard.vue";
+import ModalCard from "../modals/ModalCard.vue";
+import Comments from "../modals/CommentsModal.vue";
+import Pagination from "../ui/Pagiantion.vue";
+import PostCard from "../blocks/PostCard.vue";
 
 export default {
     name: 'Posts',
@@ -65,7 +65,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 
 .posts__list {

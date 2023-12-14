@@ -1,8 +1,8 @@
 <script>
-import Date from "./Date.vue"
-import BalloonComment from "./ui/BalloonComment.vue";
-import CommentForm from "./ui/CommentForm.vue";
-import CommentLeaveBtn from "./ui/CommentLeaveBtn.vue";
+import Date from "../ui/Date.vue"
+import BalloonComment from "../ui/BalloonComment.vue";
+import CommentForm from "../ui/CommentForm.vue";
+import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
 export default {
     name: 'Comments',
     props: ['comments', 'toggleComment'],
@@ -36,7 +36,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 .comment__header {
     display: flex;
@@ -55,7 +55,7 @@ export default {
     max-height: 700px;
     color: #000;
     background-color: #cdbfff;
-    background-image: url("../../assets/images/chat-background.jpg");
+    background-image: url("../../../assets/images/chat-background.jpg");
     background-size: 100% auto;
     z-index: 4;
     border-radius: 0 10px 10px 0;

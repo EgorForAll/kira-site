@@ -1,11 +1,11 @@
 <script>
-import Widgets from "./Widjets.vue";
-import Date from "./Date.vue";
-import BalloonComment from "./ui/BalloonComment.vue";
-import {observer} from "../utils.js";
-import CommentForm from "./ui/CommentForm.vue";
-import CommentLeaveBtn from "./ui/CommentLeaveBtn.vue";
-import ChatBackground from "../../assets/images/chat-background.jpg?component"
+import Widgets from "../ui/Widjets.vue";
+import Date from "../ui/Date.vue";
+import BalloonComment from "../ui/BalloonComment.vue";
+import {observer} from "../../utils.js";
+import CommentForm from "../ui/CommentForm.vue";
+import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
+import ChatBackground from "../../../assets/images/chat-background.jpg?component"
 
 export default {
     name: 'ListCard',
@@ -68,7 +68,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 .comment__footer {
     padding: 20px;
@@ -122,7 +122,7 @@ export default {
     background-color: #cdbfff;
     border-radius: 10px;
     border: 1px solid #5d47a9;
-    background-image: url("../../assets/images/chat-background.jpg");
+    background-image: url("../../../assets/images/chat-background.jpg");
     background-size: 100% auto;
     background-clip: border-box;
 }

@@ -1,5 +1,5 @@
 <script>
-import LogoSVG from "../../assets/images/logo.svg";
+import LogoSVG from "../../../assets/images/logo.svg";
 
 export default {
     name: 'Footer',
@@ -26,7 +26,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 .footer__list {
     width: 27%;

@@ -1,6 +1,6 @@
 <script>
-import Widgets from "./Widjets.vue";
-import Date from "./Date.vue";
+import Widgets from "../ui/Widjets.vue";
+import Date from "../ui/Date.vue";
 import Comments from "./CommentsModal.vue";
 import {mapActions, mapGetters} from "vuex";
 import {toRaw} from "vue";
@@ -86,7 +86,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 .modal-card__tile {
     color: #3600ff;

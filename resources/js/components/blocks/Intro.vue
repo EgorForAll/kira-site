@@ -1,7 +1,7 @@
 <script>
-import KiraAvatar from "../../assets/images/kira-avatar.jpg"
-import ListSVG from "../../assets/images/list.svg?component"
-import TableSVG from "../../assets/images/table.svg?component"
+import KiraAvatar from "../../../assets/images/kira-avatar.jpg"
+import ListSVG from "../../../assets/images/list.svg?component"
+import TableSVG from "../../../assets/images/table.svg?component"
 
 export default {
     name: 'Introduction',
@@ -44,7 +44,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 .intro__btn {
     padding: 5px;
