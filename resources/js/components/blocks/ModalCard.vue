@@ -1,13 +1,12 @@
 <script>
-import Widgets from "./Widjets.vue";
-import Date from "./Date.vue";
+import Widgets from "../ui/Widjets.vue";
 import Comments from "./CommentsModal.vue";
+import HumanDate from "../ui/HumanDate.vue";
 import {mapActions, mapGetters} from "vuex";
-import {toRaw} from "vue";
 
 export default {
     name: 'ModalCard',
-    components: {Widgets, Date, Comments},
+    components: {Widgets, Comments, HumanDate},
     props: ['toggleComment', 'isCommentShown', 'commentRef'],
     methods: {
         ...mapActions({
@@ -79,14 +78,14 @@ export default {
             </div>
             <div class="modal-card__widgets pt-3 pb-3">
                 <widgets :likes="currentPost.likes" :comments="currentComments(currentPost.id)" @show-comments="toggleComment()"/>
-                <date :in-date="currentPost.created_at"/>
+                <human-date :in-date="currentPost.created_at"/>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 .modal-card__tile {
     color: #3600ff;

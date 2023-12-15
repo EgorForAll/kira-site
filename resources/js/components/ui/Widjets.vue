@@ -1,6 +1,6 @@
 <script>
-import HeartSVG from "../../assets/images/heart.svg?component";
-import CommentSVG from "../../assets/images/comment.svg"
+import HeartSVG from "../../../assets/images/heart.svg?component";
+import CommentSVG from "../../../assets/images/comment.svg"
 
 export default {
     name: 'Widgets',
@@ -32,7 +32,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 .widgets__number {
     font-size: 18px;
     color: #000;

@@ -1,13 +1,13 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import Header from "./Header.vue"
-import Introduction from "./Intro.vue";
-import PostsTable from "./PostsTable.vue";
-import PostList from "./PostList.vue";
-import Footer from "./Footer.vue";
+import Header from "../layout/Header.vue"
+import Introduction from "../blocks/Intro.vue";
+import PostsTable from "../blocks/PostsTable.vue";
+import PostList from "../blocks/PostList.vue";
+import Footer from "../layout/Footer.vue";
 
 export default  {
-    name: 'App',
+    name: 'Home',
     components: {Introduction, PostsTable, Header, PostList, Footer},
     data() {
         return {

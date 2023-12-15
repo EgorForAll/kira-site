@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import LogoSVG from "../../assets/images/logo.svg";
-import AvatarSVG from "../../assets/images/avatar.svg?component";
+import LogoSVG from "../../../assets/images/logo.svg";
+import AvatarSVG from "../../../assets/images/avatar.svg?component";
 
 export default {
     name: 'Header',
@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 .header__nav {
     width: min-content;

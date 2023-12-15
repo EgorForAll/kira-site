@@ -1,16 +1,15 @@
 <script>
-import Widgets from "./Widjets.vue";
-import Date from "./Date.vue";
-import BalloonComment from "./ui/BalloonComment.vue";
-import {observer} from "../utils.js";
-import CommentForm from "./ui/CommentForm.vue";
-import CommentLeaveBtn from "./ui/CommentLeaveBtn.vue";
-import ChatBackground from "../../assets/images/chat-background.jpg?component"
+import Widgets from "../ui/Widjets.vue";
+import BalloonComment from "../ui/BalloonComment.vue";
+import HumanDate from "../ui/HumanDate.vue";
+import {observer} from "../../utils.js";
+import CommentForm from "../ui/CommentForm.vue";
+import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
 
 export default {
     name: 'ListCard',
     props: ['post', 'comments'],
-    components: {CommentForm, BalloonComment, Widgets, Date, CommentLeaveBtn},
+    components: {CommentForm, BalloonComment, Widgets, CommentLeaveBtn, HumanDate},
     data() {
         return {
             isCommentShow: false,
@@ -42,7 +41,7 @@ export default {
         </div>
         <div class="card__widgets pt-lg-3 pb-lg-3 pb-md-3 pt-md-3 pt-2 pb-2">
             <widgets :likes="post.likes" :comments="comments" @showComments="toggleComment()"/>
-            <date :in-date="post.created_at"/>
+            <human-date :in-date="post.created_at"/>
         </div>
         <transition name="custom-classes-transition"
                     enter-active-class="cssanimation fadeIn">
@@ -68,7 +67,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 .comment__footer {
     padding: 20px;
@@ -122,7 +121,7 @@ export default {
     background-color: #cdbfff;
     border-radius: 10px;
     border: 1px solid #5d47a9;
-    background-image: url("../../assets/images/chat-background.jpg");
+    background-image: url("../../../assets/images/chat-background.jpg");
     background-size: 100% auto;
     background-clip: border-box;
 }

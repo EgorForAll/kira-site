@@ -1,10 +1,9 @@
 <script>
-import Date from "@/components/Date.vue";
-
+import HumanDate from "../ui/HumanDate.vue";
 export default {
     name: 'BalloonComment',
-    components: {Date},
-    props: ['comments']
+    props: ['comments'],
+    components: {HumanDate}
 }
 
 </script>
@@ -14,7 +13,7 @@ export default {
         <div class="comment__text">{{ comment.comment }}</div>
         <div class="comment__attributes">
             <span class="comment__user">{{ comment.user }}</span>
-            <date :in-date="comment.created_at"/>
+            <human-date :in-date="comment.created_at"/>
         </div>
     </li>
     <div class="no-comments" v-else><span>Здесь пока нет комментариев. <br/> Будьте первыми!</span></div>
@@ -38,7 +37,7 @@ export default {
     display: flex;
     justify-content: space-between;
 
-    .widgets__date {
+    .human__date {
         display: inline;
         font-size: 12px;
         color: #fff;

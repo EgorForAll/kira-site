@@ -25,7 +25,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../scss/main";
+@import "../../../scss/main";
 
 .posts__img {
     width: 100%;
