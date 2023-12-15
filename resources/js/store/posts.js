@@ -1,3 +1,4 @@
+import axios from "axios";
 const loadPosts = (url) =>
     fetch(url).then((res) => res.json());
 

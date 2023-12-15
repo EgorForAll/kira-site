@@ -1,6 +1,6 @@
 <template>
     <Header />
-    <div class="container">
+    <div class="container pt-3">
         <div class="row justify-content-center pt-5">
             <div class="col-md-8">
 
@@ -9,9 +9,17 @@
                 </div>
 
                 <div class="card card-default">
-                    <div class="card-header">Авторизация</div>
+                    <div class="card-header">Регистрация</div>
                     <div class="card-body">
                         <form>
+                            <div class="form-group mb-3 row">
+                                <label for="name" class="col-sm-4 col-form-label text-md-right">Name</label>
+                                <div class="col-md-6">
+                                    <input id="name" type="email" class="form-control" v-model="name" required
+                                           autofocus autocomplete="off">
+                                </div>
+                            </div>
+
                             <div class="form-group mb-3 row">
                                 <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address</label>
                                 <div class="col-md-6">
@@ -30,11 +38,8 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary me-3" @click="handleSubmit">
-                                        Вход
-                                    </button>
-                                    <button type="button" class="btn btn-secondary">
-                                        Регистрация
+                                    <button type="submit" class="btn btn-primary" @click="handleSubmit">
+                                        Register
                                     </button>
                                 </div>
                             </div>
@@ -49,10 +54,11 @@
 <script>
 import Header from "../layout/Header.vue";
 export default {
-    name: 'Auth',
+    name: 'Register',
     components: {Header},
     data() {
         return {
+            name: "",
             email: "",
             password: "",
             error: null
@@ -62,8 +68,9 @@ export default {
         handleSubmit(e) {
             e.preventDefault()
             if (this.password.length > 0) {
-                this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                    this.$axios.post('api/login', {
+                axios.get('/sanctum/csrf-cookie').then(response => {
+                    axios.post('api/register', {
+                        name: this.name,
                         email: this.email,
                         password: this.password
                     })

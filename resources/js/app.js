@@ -4,9 +4,11 @@ import {createRouter, createWebHistory} from "vue-router";
 import App from "./components/app/App.vue"
 import Home from "./components/pages/Home.vue"
 import Auth from "./components/pages/Auth.vue";
+import Register from "./components/pages/Register.vue";
 import "../css/app.css"
 import "../scss/main.scss"
 import store from "./store/index.js"
+import axios from "./axios/index.ts";
 
 const router = createRouter({
     routes: [
@@ -17,6 +19,10 @@ const router = createRouter({
         {
             path: '/auth',
             component: Auth
+        },
+        {
+            path: '/register',
+            component: Register
         }
     ],
     history: createWebHistory()
@@ -30,5 +36,8 @@ const app = createApp({
 
 app.use(store)
 app.use(router)
+app.use(axios, {
+    baseUrl: 'http://127.0.0.1:8000',
+})
 app.mount('#app');
 

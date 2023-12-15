@@ -21,6 +21,9 @@ export default {
         ...mapActions({
             loadComments: "comments/fetchComments"
         }),
+        ...mapActions({
+            getUser: "auth/fetchUserData"
+        })
     },
     computed: {
         ...mapGetters({
@@ -35,7 +38,8 @@ export default {
     },
     created() {
         this.loadPosts(`http://127.0.0.1:8000/laravel_route/posts`)
-        this.loadComments(this.postsPerPage)
+        this.loadComments(this.postsPerPage);
+        this.getUser()
     },
 }
 

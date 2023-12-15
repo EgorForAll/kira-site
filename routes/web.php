@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\TotalPostsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -24,4 +25,6 @@ Route::group(['prefix' => 'laravel_route'], function () {
     Route::get('/posts', PostController::class . '@index');
     Route::get('/comments/{post_id}', CommentController::class . '@index');
 });
+
+Route::get('/laravel_route/user', [UserController::class, 'isUser'])->middleware('auth:sanctum');
 
