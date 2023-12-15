@@ -6,7 +6,7 @@ import PostsTable from "../blocks/PostsTable.vue";
 import PostList from "../blocks/PostList.vue";
 import Footer from "../layout/Footer.vue";
 
-export default  {
+export default {
     name: 'Home',
     components: {Introduction, PostsTable, Header, PostList, Footer},
     data() {
@@ -38,6 +38,10 @@ export default  {
         this.loadComments(this.postsPerPage)
     },
 }
+
+
+
+
 </script>
 
 

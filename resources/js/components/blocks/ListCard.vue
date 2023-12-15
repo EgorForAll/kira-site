@@ -6,6 +6,7 @@ import {observer} from "../../utils.js";
 import CommentForm from "../ui/CommentForm.vue";
 import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
 
+
 export default {
     name: 'ListCard',
     props: ['post', 'comments'],

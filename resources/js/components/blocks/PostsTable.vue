@@ -6,6 +6,7 @@ import Comments from "./CommentsModal.vue";
 import Pagination from "../ui/Pagiantion.vue";
 import PostCard from "./PostCard.vue";
 
+
 export default {
     name: 'Posts',
     components: {PostCard, ModalCard, Comments, Pagination},
