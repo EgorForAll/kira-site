@@ -102,25 +102,7 @@ export default {
 }
 
 .content__text {
-    max-height: 175px;
-    overflow-y: scroll;
-    text-align: justify;
-    line-height: 22px;
-    color: #000;
-    background-color: transparent;
-    border-radius: 5px;
-    padding: 10px;
-    @media (max-width: $lg) {
-        max-height: 215px;
-        font-size: 16px;
-        line-height: 23px;
-    }
-    @media (max-width: $md) {
-        font-size: 14px;
-        line-height: 18px;
-        max-height: 185px;
-        overflow-y: scroll;
-    }
+    @include  text-content();
 }
 
 .modal-card__btn-close {

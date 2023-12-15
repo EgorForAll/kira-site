@@ -1,5 +1,5 @@
 const loadComments = (postId) =>
-    fetch(`http://127.0.0.1:8000/comments/${postId}`).then((res) =>
+    fetch(`http://127.0.0.1:8000/laravel_route/comments/${postId}`).then((res) =>
         res.json()
     ).then((res) => res.data);
 

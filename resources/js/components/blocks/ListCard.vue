@@ -36,7 +36,7 @@ export default {
         <div class="card__img-wrapper">
             <img :src="post.image" :alt="post.title" width="100%" class="card__img">
         </div>
-        <div class="card__content pt-md-2 pb-md-2">
+        <div class="card__content pt-3 pb-3 pt-md-2 pb-md-2 pt-lg-4 pb-lg-4">
             <p class="card__text">{{ post.content }}</p>
         </div>
         <div class="card__widgets pt-lg-3 pb-lg-3 pb-md-3 pt-md-3 pt-2 pb-2">
@@ -183,24 +183,6 @@ export default {
 }
 
 .card__text {
-    font-size: 18px;
-    line-height: 25px;
-    text-align: justify;
-    margin: 0;
-    max-height: 300px;
-    overflow-y: scroll;
-    padding: 10px 20px;
-
-    @media (max-width: $lg) {
-        font-size: 16px;
-        line-height: 21px;
-        padding: 10px;
-    }
-
-    @media (max-width: $md) {
-        font-size: 14px;
-        padding: 10px 0;
-        line-height: 18px;
-    }
+ @include text-content();
 }
 </style>

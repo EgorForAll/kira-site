@@ -34,7 +34,7 @@ export default  {
         }),
     },
     created() {
-        this.loadPosts(`http://127.0.0.1:8000/posts`)
+        this.loadPosts(`http://127.0.0.1:8000/laravel_route/posts`)
         this.loadComments(this.postsPerPage)
     },
 }

@@ -1,3 +1,13 @@
+:root {
+    --scrollbarBgComment: #5b527b;
+    --scrollbarBgDesc: #4C80CE;
+    --scrollbarThumbComment: #ec9ac1;
+    --scrollbarThumbDesc: #ABCDFF;
+    --scrollbarWidth: 8px;
+    --scrollbarBorder: 1px solid var(--scrollbarBgComment);
+    --scrollbarBorderRadius: calc(var(--scrollbarWidth) / 2);
+}
+
 body {
     margin: 0;
     padding: 0;

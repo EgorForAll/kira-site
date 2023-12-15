@@ -40,13 +40,16 @@ export default {
 .comment__header {
     display: flex;
     justify-content: flex-end;
-    padding: 10px;
+    padding: 10px 20px 10px;
 }
 
 .comments {
     position: fixed;
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    scrollbar-width: var(--scrollbarWidth);
+    scrollbar-color: var(--scrollbarThumbComment) var(--scrollbarBgComment);
     top: 10%;
     left: 0;
     width: 450px;
@@ -59,13 +62,27 @@ export default {
     z-index: 4;
     border-radius: 0 10px 10px 0;
     box-shadow: 0 0 1px 2px #5d47a9;
-    overflow-y: scroll;
     @media (max-width: $lg) {
        width: 365px;
     }
     @media (max-width: $md) {
         width: 270px;
         top: 8%;
+    }
+
+    &::-webkit-scrollbar {
+        width: var(--scrollbarWidth);
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--scrollbarBgComment);
+        border-radius: var(--scrollbarBorderRadius);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbarThumbComment);
+        border-radius: var(--scrollbarBorderRadius);
+        border: var(--scrollbarBorder);
     }
 }
 
@@ -80,11 +97,11 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
-    overflow-y: scroll;;
     border-radius: 5px;
-    padding: 0 20px;
+    padding: 0 25px;
     flex-grow: 1;
 }
+
 
 .comment__footer {
     padding: 10px 20px;

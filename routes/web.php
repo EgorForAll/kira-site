@@ -16,9 +16,12 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/{vue_capture?}', function () {
     return view('welcome');
 });
 
-Route::get('/posts', PostController::class . '@index');
-Route::get('/comments/{post_id}', CommentController::class . '@index');
+Route::group(['prefix' => 'laravel_route'], function () {
+    Route::get('/posts', PostController::class . '@index');
+    Route::get('/comments/{post_id}', CommentController::class . '@index');
+});
+

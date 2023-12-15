@@ -1,13 +1,44 @@
-@mixin container() {
-    margin: 0 150px;
-    @media (max-width: $lg) {
-        margin: 0 70px;
-    }
-    @media (max-width: $md) {
-        margin: 0 20px;
-    }
-}
+@import "variables";
 
 @mixin trans($effect, $time) {
     transition: $effect $time ease;
+}
+
+@mixin text-content () {
+    max-height: 175px;
+    overflow: auto;
+    text-align: justify;
+    margin: 0;
+    line-height: 22px;
+    color: #000;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 0 20px;
+    scrollbar-width: var(--scrollbarWidth);
+    scrollbar-color: var(--scrollbarThumbDesc) var(--scrollbarBgDesc);
+    @media (max-width: $lg) {
+        max-height: 215px;
+        font-size: 16px;
+        line-height: 23px;
+    }
+    @media (max-width: $md) {
+        font-size: 14px;
+        line-height: 18px;
+        max-height: 185px;
+    }
+
+    &::-webkit-scrollbar {
+        width: var(--scrollbarWidth);
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--scrollbarBgDesc);
+        border-radius: var(--scrollbarBorderRadius);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbarThumbDesc);
+        border-radius: var(--scrollbarBorderRadius);
+        border: var(--scrollbarBorder);
+    }
 }
