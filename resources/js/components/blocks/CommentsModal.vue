@@ -3,14 +3,32 @@
 import BalloonComment from "../ui/BalloonComment.vue";
 import CommentForm from "../ui/CommentForm.vue";
 import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
+import {mapActions, mapGetters} from "vuex";
+
 export default {
     name: 'Comments',
-    props: ['comments', 'toggleComment'],
+    props: ['toggleComment', 'postId'],
     components: {BalloonComment, CommentForm, CommentLeaveBtn},
     data() {
         return {
-            isAddNewComment: false
+            isAddNewComment: false,
         }
+    },
+    methods: {
+        ...mapActions({
+            loadComments: "comments/postComments"
+        })
+    },
+    computed: {
+        ...mapGetters({
+            user: "auth/getUser"
+        }),
+        ...mapGetters({
+            postComments: "comments/getPostComments"
+        })
+    },
+    created() {
+        this.loadComments(this.$props.postId)
     },
 }
 </script>
@@ -22,14 +40,14 @@ export default {
                     aria-label="Закрыть"></button>
         </div>
         <ul class="comments__list">
-            <BalloonComment :comments="comments"/>
+            <BalloonComment :comments="postComments"/>
         </ul>
         <div class="comment__footer">
             <comment-leave-btn :is-add-new-comment="isAddNewComment" @onClickBtn="isAddNewComment = !isAddNewComment"/>
             <transition name="custom-classes-transition"
-                        enter-active-class="cssanimation fadeIn"
-                        leave-active-class="cssanimation fadeOut">
-                <CommentForm :is-add-new-comment="isAddNewComment"/>
+                        enter-active-class="cssanimation fadeIn">
+                <CommentForm :current-comments="postComments" :post-id="postId" :is-add-new-comment="isAddNewComment"
+                             @closeCommentInput="isAddNewComment = !isAddNewComment" @loadNewComments="loadComments(postId)"/>
             </transition>
         </div>
     </div>
@@ -64,7 +82,7 @@ export default {
     border-radius: 0 10px 10px 0;
     box-shadow: 0 0 1px 2px #5d47a9;
     @media (max-width: $lg) {
-       width: 365px;
+        width: 365px;
     }
     @media (max-width: $md) {
         width: 270px;

@@ -3,7 +3,7 @@ import HumanDate from "../ui/HumanDate.vue";
 export default {
     name: 'BalloonComment',
     props: ['comments'],
-    components: {HumanDate}
+    components: {HumanDate},
 }
 
 </script>

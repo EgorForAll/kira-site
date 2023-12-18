@@ -16,11 +16,10 @@ class CommentController extends Controller
     }
 
     public function create(Request $request) {
-        $comment = new Comment([
-            'comment' => $request->comment,
-            'user' => $request->user,
-            'post_id' => $request->post_id
-        ]);
+        $comment = new Comment();
+        $comment->user = $request->user;
+        $comment->comment = $request->comment;
+        $comment->post_id = $request->post_id;
         $comment->save();
 
         return response()->json('The comment successfully added');

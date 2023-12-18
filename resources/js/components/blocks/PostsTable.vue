@@ -21,10 +21,6 @@ export default {
         toggleComment() {
             this.$data.isCommentsShown = !this.$data.isCommentsShown
         },
-        currentComments() {
-            const totalComments = toRaw(this.comments)
-            return totalComments.filter((item) => item.post_id === this.currentPost.id)
-        }
     },
     computed: {
         ...mapGetters({
@@ -57,8 +53,7 @@ export default {
                         :is-comment-shown="isCommentsShown"/>
             <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInLeft"
                         leave-active-class="cssanimation fadeOutLeft">
-                <comments v-if="isCommentsShown && comments.length > 0" :comments="currentComments()"
-                          :toggle-comment="toggleComment"/>
+                <comments :post-id="currentPost.id" v-if="isCommentsShown && comments.length > 0" :toggle-comment="toggleComment"/>
             </transition>
             <pagination/>
         </div>

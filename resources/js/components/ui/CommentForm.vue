@@ -3,29 +3,37 @@ import {mapGetters} from "vuex";
 
 export default {
     name: 'CommentForm',
-    props: ['isAddNewComment'],
+    props: ['isAddNewComment', 'postId'],
     methods: {
+        onSubmit() {
+            if (this.$refs.commentInput.value.length > 0) {
+                const data = {
+                    comment: this.$refs.commentInput.value,
+                    user: this.user.name,
+                    post_id: this.$props.postId
+                }
+
+                this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                    this.$axios.post('laravel_route/comments', data).then(() => this.$emit('loadNewComments'))
+                }).catch((err) => alert(`Произошла ошибка ${err}`))
+
+                this.$emit('closeCommentInput')
+                // setTimeout(()=>this.$emit('loadNewComments'), 250)
+            } else {
+                alert('Введите комментарий')
+            }
+        }
+    },
+    computed: {
         ...mapGetters({
             user: "auth/getUser",
         }),
-        onSubmit() {
-            try {
-                const response = this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                    this.$axios.post('web/comments', {
-                        comment: this.$refs.commentInput,
-                        user: this.user.name
-                    })
-                })
-            } catch (err) {
-                alert(`Произошла ошибка ${err}`)
-            }
-        }
     }
 }
 </script>
 
 <template>
-    <form v-if="isAddNewComment" ref="formComment" action="#" class="comment__form">
+    <form v-if="isAddNewComment" ref="formComment" action="#" class="comment__form" method="post">
         <div class="comment__textarea-wrapper">
             <textarea ref="commentInput" class="comment__textarea" placeholder="Напишите комментарий Кире"></textarea>
         </div>
