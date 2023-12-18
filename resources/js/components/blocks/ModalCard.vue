@@ -3,6 +3,7 @@ import Widgets from "../ui/Widjets.vue";
 import Comments from "./CommentsModal.vue";
 import HumanDate from "../ui/HumanDate.vue";
 import {mapActions, mapGetters} from "vuex";
+import {toRaw} from "vue";
 
 export default {
     name: 'ModalCard',
@@ -13,7 +14,7 @@ export default {
             setCurrentPost: "posts/setCurrentPost"
         }),
         ...mapActions({
-            loadComments: "comments/fetchComments"
+            loadComments: "comments/postComments"
         }),
         closeWindow() {
             const setCurrentPost = (value) => {
@@ -40,17 +41,18 @@ export default {
                 this.closeWindow()
             }
         },
-        currentComments(id) {
-            return this.comments.filter((item) => item.post_id === id)
-        }
     },
     computed: {
         ...mapGetters({
             currentPost: "posts/getCurrentPost"
         }),
         ...mapGetters({
-            comments: 'comments/getComments'
+            comments: 'comments/getPostComments'
         }),
+    },
+    created() {
+        const post = toRaw(this.currentPost)
+        this.loadComments(post.id)
     },
     mounted() {
         window.addEventListener('keydown', this.onEscDown)
@@ -77,7 +79,7 @@ export default {
                 <p class="content__text m-0">{{currentPost.content}}</p>
             </div>
             <div class="modal-card__widgets pt-3 pb-3">
-                <widgets :likes="currentPost.likes" :comments="currentComments(currentPost.id)" @show-comments="toggleComment()"/>
+                <widgets :likes="currentPost.likes" :comments="comments" @show-comments="toggleComment()"/>
                 <human-date :in-date="currentPost.created_at"/>
             </div>
         </div>

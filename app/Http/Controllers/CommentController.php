@@ -10,7 +10,7 @@ class CommentController extends Controller
 {
     public function  index($id) {
         $comments_filtered = Comment::all()->reject(function (Comment $comment) use ($id) {
-            return $comment->post_id > $id;
+            return $comment->post_id != $id;
         });
         return CommentResource::collection($comments_filtered);
     }
