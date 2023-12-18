@@ -1,11 +1,56 @@
+<script>
+import LogoSVG from "../../../assets/images/logo.svg";
+import AvatarSVG from "../../../assets/images/avatar.svg?component";
+import {mapGetters, mapActions} from "vuex";
+
+export default {
+    name: 'Header',
+    data() {
+        return {
+            isLinkShown: false
+        }
+    },
+    components: {AvatarSVG, LogoSVG},
+    methods: {
+        ...mapActions({
+            resetAuth: "auth/resetAuth"
+        }),
+        onLogOut() {
+            this.$axios.get('/sanctum/csrf-cookie').then(response => this.$axios.post('api/logout')).then(res => {
+                if (res.status === 200) {
+                this.resetAuth()
+                }
+            })
+        },
+    },
+    computed: {
+        ...mapGetters({
+            user: 'auth/getUser',
+        }),
+        ...mapGetters({
+            isAuth: 'auth/getAuth'
+        }),
+    }
+}
+</script>
+
 <template>
     <header class="header">
         <div class="container header__container pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-4 pb-lg-4">
             <div class="row justify-content-between align-items-center">
                 <LogoSVG/>
                 <nav class="header__nav d-flex align-items-center">
-                    <a v-if="isAuth" href="#" class="header__link me-2">{{ user.name }}</a>
-                    <a v-else href="#" class="header__link">Войти</a>
+                    <a @click="isLinkShown = !isLinkShown" @mouseenter="isLinkShown = !isLinkShown" v-if="isAuth" class="header__link me-2">{{
+                            user.name
+                        }}</a>
+                    <router-link :to="{name: 'auth'}" v-else href="#" class="header__link">Войти</router-link>
+                    <transition name="custom-classes-transition"
+                                enter-active-class="cssanimation fadeIn"
+                                leave-active-class="cssanimation fadeOut">
+                        <button type="button" class="btn btn-secondary out" v-if="isLinkShown"
+                                @mouseout="isLinkShown = !isLinkShown" @click="onLogOut">Выйти
+                        </button>
+                    </transition>
                     <AvatarSVG/>
                 </nav>
             </div>
@@ -14,29 +59,11 @@
     </header>
 </template>
 
-<script>
-import LogoSVG from "../../../assets/images/logo.svg";
-import AvatarSVG from "../../../assets/images/avatar.svg?component";
-import {mapGetters} from "vuex";
-
-export default {
-    name: 'Header',
-    components: {AvatarSVG, LogoSVG},
-    computed: {
-        ...mapGetters({
-            user: 'auth/getUser',
-        }),
-        ...mapGetters({
-            isAuth: 'auth/getAuth'
-        })
-    },
-}
-</script>
-
 <style lang="scss">
 @import "../../../scss/main";
 
 .header__nav {
+    position: relative;
     width: min-content;
 }
 
@@ -67,4 +94,22 @@ export default {
 nav {
     width: min-content;
 }
+
+.out {
+    padding: 5px;
+    font-size: 14px;
+    line-height: 18px;
+    position: absolute;
+    top: 40px;
+    left: 5px;
+    border: 1px solid #4a5568;
+    border-radius: 5px;
+    @media (max-width: $md) {
+        font-size: 9px;
+        padding: 2px;
+        top: 24px;
+        left: 9px;
+    }
+}
+
 </style>

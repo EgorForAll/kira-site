@@ -33,9 +33,9 @@
                                     <button type="submit" class="btn btn-primary me-3" @click="handleSubmit">
                                         Вход
                                     </button>
-                                    <button type="button" class="btn btn-secondary">
+                                    <router-link  :to="{name: 'register'}" class="btn btn-secondary">
                                         Регистрация
-                                    </button>
+                                    </router-link>
                                 </div>
                             </div>
                         </form>
@@ -75,7 +75,7 @@ export default {
                             }
                         })
                         .catch(function (error) {
-                            console.error(error);
+                            alert(`Произошла ошибка ${error}. Попробуйте еще раз`);
                         });
                 })
             }

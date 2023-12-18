@@ -14,4 +14,15 @@ class CommentController extends Controller
         });
         return CommentResource::collection($comments_filtered);
     }
+
+    public function create(Request $request) {
+        $comment = new Comment([
+            'comment' => $request->comment,
+            'user' => $request->user,
+            'post_id' => $request->post_id
+        ]);
+        $comment->save();
+
+        return response()->json('The comment successfully added');
+    }
 }

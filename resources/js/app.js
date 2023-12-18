@@ -14,14 +14,17 @@ const router = createRouter({
     routes: [
         {
             path: '/',
+            name: 'home',
             component: Home
         },
         {
             path: '/auth',
+            name: 'auth',
             component: Auth
         },
         {
             path: '/register',
+            name: 'register',
             component: Register
         }
     ],

@@ -1,21 +1,41 @@
 <script>
+import {mapGetters} from "vuex";
+
 export default {
     name: 'CommentForm',
-    props: ['isAddNewComment']
+    props: ['isAddNewComment'],
+    methods: {
+        ...mapGetters({
+            user: "auth/getUser",
+        }),
+        onSubmit() {
+            try {
+                const response = this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                    this.$axios.post('web/comments', {
+                        comment: this.$refs.commentInput,
+                        user: this.user.name
+                    })
+                })
+            } catch (err) {
+                alert(`Произошла ошибка ${err}`)
+            }
+        }
+    }
 }
 </script>
 
 <template>
     <form v-if="isAddNewComment" ref="formComment" action="#" class="comment__form">
         <div class="comment__textarea-wrapper">
-            <textarea class="comment__textarea" placeholder="Напишите комментарий Кире"></textarea>
+            <textarea ref="commentInput" class="comment__textarea" placeholder="Напишите комментарий Кире"></textarea>
         </div>
-        <button class="comment__submit">Опубликовать</button>
+        <button @click="onSubmit" type="button" class="comment__submit">Опубликовать</button>
     </form>
 </template>
 
 <style scoped lang="scss">
 @import "../../../scss/main";
+
 .comment__textarea-wrapper {
     position: relative;
 

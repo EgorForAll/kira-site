@@ -63,10 +63,10 @@ class UserController extends Controller
     /**
      * Logout
      */
-    public function logout()
+    public function logout(Request $request)
     {
         try {
-            Session::flush();
+            $request->flush();
             $success = true;
             $message = 'Successfully logged out';
         } catch (\Illuminate\Database\QueryException $ex) {
@@ -81,12 +81,24 @@ class UserController extends Controller
         ];
         return response()->json($response);
     }
-    public function isUser() {
+
+    public function isUser()
+    {
         $user = Auth::user();
+        if ($user) {
+            $success = true;
+            $messages = [
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role
+            ];
+        } else {
+            $success = false;
+            $messages = 'Пользователь не авторизован';
+        }
         $response = [
-            'name' => $user->name,
-            'email' => $user->email,
-            'role' => $user->role
+            'success' => $success,
+            'messages' => $messages
         ];
         return response($response);
     }
