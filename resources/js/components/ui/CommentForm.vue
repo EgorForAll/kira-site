@@ -46,7 +46,7 @@ export default {
     validations() {
         return {
             form: {
-                comment: {required, minLength: minLength(5), isUser: isUser(this.user), isIncludesHtml}
+                comment: {required, minLength: minLength(5), isUser: isUser(this.user.name), isIncludesHtml}
             }
         }
     }

@@ -4,7 +4,7 @@ import axios from "axios";
 export default {
     namespaced: true,
     state: {
-        user: null,
+        user: {},
         isAuth: false,
         error: ''
     },
