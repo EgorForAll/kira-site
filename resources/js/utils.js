@@ -66,4 +66,12 @@ export const defineHumanDate = (machineDate) => {
 
 export const isUser = (user) => () => !!user;
 
-export const isIncludesHtml = (value) => !value.includes('<') || !value.includes('>')
+const findHtml = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/
+
+const nameInput = /[a-zа-яA-ZА-Я0-9_-]{2,16}$/
+
+const passwordInput = /^[A-Za-zа-яА-Я0-9_-]{6,18}$/
+export const isIncludesHtml = (value) => !findHtml.test(value)
+export const isName = (value) => nameInput.test(value)
+
+export const  isPassword = (value) => passwordInput.test(value)
