@@ -63,3 +63,7 @@ export const defineHumanDate = (machineDate) => {
         const day = findDay(date)
         return `${day} ${month} ${year}`
 }
+
+export const isUser = (user) => () => !!user;
+
+export const isIncludesHtml = (value) => !value.includes('<') || !value.includes('>')

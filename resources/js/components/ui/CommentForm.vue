@@ -1,12 +1,28 @@
 <script>
 import {mapGetters} from "vuex";
+import {useVuelidate} from '@vuelidate/core'
+import {required, minLength} from '@vuelidate/validators'
+import {isUser, isIncludesHtml} from "@/utils.js";
 
 export default {
     name: 'CommentForm',
+    setup() {
+        return {v$: useVuelidate()}
+    },
     props: ['isAddNewComment', 'postId'],
+    data() {
+        return {
+            error: '',
+            form: {
+                comment: ''
+            }
+        }
+    },
     methods: {
-        onSubmit() {
-            if (this.$refs.commentInput.value.length > 0) {
+        async submitForm(e) {
+            e.preventDefault()
+            const isFormCorrect = await this.v$.$validate()
+            if (isFormCorrect) {
                 const data = {
                     comment: this.$refs.commentInput.value,
                     user: this.user.name,
@@ -18,44 +34,63 @@ export default {
                 }).catch((err) => alert(`Произошла ошибка ${err}`))
 
                 this.$emit('closeCommentInput')
-                // setTimeout(()=>this.$emit('loadNewComments'), 250)
-            } else {
-                alert('Введите комментарий')
+
             }
-        }
+        },
     },
     computed: {
         ...mapGetters({
             user: "auth/getUser",
         }),
+    },
+    validations() {
+        return {
+            form: {
+                comment: {required, minLength: minLength(5), isUser: isUser(this.user), isIncludesHtml}
+            }
+        }
     }
 }
 </script>
 
 <template>
-    <form v-if="isAddNewComment" ref="formComment" action="#" class="comment__form" method="post">
+    <form v-if="isAddNewComment" ref="formComment" action="#" class="comment__form" method="post"
+          @submit="submitForm">
         <div class="comment__textarea-wrapper">
-            <textarea ref="commentInput" class="comment__textarea" placeholder="Напишите комментарий Кире"></textarea>
+            <textarea v-model.trim="v$.form.comment.$model" ref="commentInput"
+                      :class="'comment__textarea'"
+                      placeholder="Напишите комментарий Кире"></textarea>
+            <p class="error-msg" v-if="v$.form.comment.minLength.$invalid">Введите не менее 5 символов</p>
+            <p class="error-msg" v-if="v$.form.comment.isUser.$invalid">
+                Пожалуйста, авторизируйтесь
+            </p>
         </div>
-        <button @click="onSubmit" type="button" class="comment__submit">Опубликовать</button>
+        <button type="submit" @submit="submitForm" class="comment__submit">Опубликовать</button>
     </form>
 </template>
 
 <style scoped lang="scss">
 @import "../../../scss/main";
 
-.comment__textarea-wrapper {
-    position: relative;
-
-    &::before {
-        position: absolute;
-        bottom: 2px;
-        left: -8px;
-        content: '';
-        border: 8px solid transparent;
-        border-right: 8px solid #fff;
-        border-bottom: 12px solid #fff;
+.error-msg {
+    font-size: 12px;
+    color: #e05151 !important;
+    max-width: 60%;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 0;
+    background-color: #cad5f6;
+    @media (max-width: $md) {
+        font-size: 10px;
+        max-width: 100%;
     }
+}
+
+.is-invalid {
+    @extend .comment__textarea;
+    border: 1px solid #d34e4e;
 }
 
 .comment__submit {
@@ -66,7 +101,7 @@ export default {
     justify-content: center;
     align-items: center;
     border: none;
-    margin-top: 20px;
+    margin-top: 10px;
     height: 30px;
     border-radius: 5px;
     @include trans(background-color, 0.2s);
