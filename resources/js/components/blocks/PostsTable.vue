@@ -27,7 +27,7 @@ export default {
             currentPost: "posts/getCurrentPost"
         }),
         ...mapGetters({
-            comments: "comments/getComments"
+            comments: "comments/getPostComments"
         }),
     },
     updated() {

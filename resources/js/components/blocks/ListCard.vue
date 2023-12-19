@@ -2,30 +2,41 @@
 import Widgets from "../ui/Widjets.vue";
 import BalloonComment from "../ui/BalloonComment.vue";
 import HumanDate from "../ui/HumanDate.vue";
-import {observer} from "../../utils.js";
+import {observer} from "@/utils.js";
 import CommentForm from "../ui/CommentForm.vue";
 import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
-
+import {loadComments} from "@/store/comments.js";
 
 export default {
     name: 'ListCard',
-    props: ['post', 'comments'],
+    props: ['post'],
     components: {CommentForm, BalloonComment, Widgets, CommentLeaveBtn, HumanDate},
     data() {
         return {
             isCommentShow: false,
-            isAddNewComment: false
+            isAddNewComment: false,
+            comments: []
         }
     },
     methods: {
         toggleComment() {
             this.$data.isCommentShow = !this.$data.isCommentShow
         },
+        async fetchComments() {
+            try {
+                this.$data.comments = await loadComments(this.$props.post.id)
+            } catch (err) {
+                throw new err
+            }
+        }
+    },
+    created() {
+        this.fetchComments()
     },
     mounted() {
         this.$refs.listItem.style.visibility = 'hidden'
         observer.observe(this.$refs.listItem)
-    }
+    },
 }
 </script>
 

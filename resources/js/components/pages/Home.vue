@@ -19,9 +19,6 @@ export default {
             loadPosts: 'posts/fetchPosts'
         }),
         ...mapActions({
-            loadComments: "comments/fetchComments"
-        }),
-        ...mapActions({
             getUser: "auth/fetchUserData"
         })
     },
@@ -32,13 +29,9 @@ export default {
         ...mapGetters({
             posts: "posts/getPosts"
         }),
-        ...mapGetters({
-            comments: 'comments/getComments'
-        }),
     },
     created() {
         this.loadPosts(`http://127.0.0.1:8000/laravel_route/posts`)
-        this.loadComments(this.postsPerPage);
         this.getUser()
     },
 }
@@ -55,7 +48,7 @@ export default {
         <main>
             <introduction @set-view="isTableView = !isTableView"  :is-table-view="isTableView"/>
             <posts-table v-if="isTableView" :posts="posts"  :posts-per-page="postsPerPage"/>
-            <post-list v-else  :posts="posts"  :comments="comments"/>
+            <post-list v-else :posts="posts"/>
         </main>
         <Footer />
     </div>

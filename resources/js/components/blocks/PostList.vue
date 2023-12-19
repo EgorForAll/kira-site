@@ -6,13 +6,8 @@ import PaginationList from "../ui/Pagiantion.vue";
 
 export default {
     name: 'PostList',
-    props: ['posts', 'comments'],
+    props: ['posts'],
     components: {ListCard, PaginationList},
-    methods: {
-        findComments(id) {
-            return this.$props.comments.filter((item) => item.post_id === id)
-        },
-    }
 }
 </script>
 
@@ -20,7 +15,7 @@ export default {
     <section class="posts">
         <div class="container pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-5 pb-lg-5">
             <ul class="posts__list">
-                <list-card ref="listItem" v-for="(post) in posts" :key="post.id" :post="post" :comments="findComments(post.id)"/>
+                <list-card ref="listItem" v-for="(post) in posts" :key="post.id" :post="post"/>
             </ul>
             <pagination-list @loadMore="$emit('loadMore')"/>
         </div>
