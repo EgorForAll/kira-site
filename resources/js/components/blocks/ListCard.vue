@@ -70,7 +70,7 @@ export default {
                     <transition name="custom-classes-transition"
                                 enter-active-class="cssanimation fadeIn"
                                 leave-active-class="cssanimation fadeOut">
-                        <CommentForm :is-add-new-comment="isAddNewComment"/>
+                        <CommentForm :post-id="post.id" :is-add-new-comment="isAddNewComment"  @closeCommentInput="isAddNewComment = !isAddNewComment" @loadNewComments="fetchComments"/>
                     </transition>
                 </div>
             </div>
