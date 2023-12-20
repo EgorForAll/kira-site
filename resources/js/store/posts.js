@@ -9,7 +9,8 @@ export default {
         currentPost: null,
         links: null,
         meta: null,
-        postsPerPage: 9
+        postsPerPage: 9,
+        isCreateNew: false
     },
     mutations: {
         SET_POSTS(state, payload) {
@@ -26,6 +27,9 @@ export default {
         },
         SET_POSTS_PER_PAGE(state) {
             state.postsPerPage = state.postsPerPage + 9
+        },
+        SET_CREATE_NEW(state) {
+            state.isCreateNew = !state.isCreateNew
         }
     },
     getters: {
@@ -43,6 +47,9 @@ export default {
         },
         getPostsPerPage(state) {
             return state.postsPerPage
+        },
+        getCreateNew(state){
+            return state.isCreateNew
         }
     },
     actions: {
@@ -61,6 +68,9 @@ export default {
         },
         setPostsPerPage({commit}) {
             commit('SET_POSTS_PER_PAGE')
+        },
+        setCreateNew({commit}) {
+            commit('SET_CREATE_NEW')
         }
     },
 };

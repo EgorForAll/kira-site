@@ -38,6 +38,15 @@
     }
 }
 
+.add-svg {
+    width: 50px;
+    height: 50px;
+    @media (max-width: $lg) {
+        width: 40px;
+        height: 40px;
+    }
+}
+
 .overlay {
     overflow: hidden;
     position: relative;

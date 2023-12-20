@@ -2,16 +2,32 @@
 import KiraAvatar from "../../../assets/images/kira-avatar.jpg"
 import ListSVG from "../../../assets/images/list.svg?component"
 import TableSVG from "../../../assets/images/table.svg?component"
+import AddSVG from "../../../assets/images/add.svg?component"
+import {mapGetters, mapActions} from "vuex";
 
 export default {
     name: 'Introduction',
     props: ['isTableView'],
-    components: {ListSVG, TableSVG},
+    components: {ListSVG, TableSVG, AddSVG},
     data() {
         return {
             avatarUrl: KiraAvatar
         }
     },
+    methods: {
+        ...mapActions({
+            setCreateNew: "posts/setCreateNew"
+        }),
+        onClickMode() {
+            this.setCreateNew();
+            document.querySelector('body').classList.add('overlay')
+        }
+    },
+    computed: {
+        ...mapGetters({
+            user: "auth/getUser"
+        }),
+    }
 }
 </script>
 
@@ -30,6 +46,9 @@ export default {
                         своей радостью со всеми вами!
                     </p>
                     <div class="intro__views">
+                        <button @click="onClickMode" v-if="user && user.role === 'admin'" class="intro__btn">
+                            <AddSVG/>
+                        </button>
                         <button class="intro__btn" :disabled="!isTableView" @click="$emit('setView')">
                             <ListSVG/>
                         </button>
@@ -54,6 +73,7 @@ export default {
     height: auto;
     background-color: transparent;
     @include trans(background-color, 0.3s);
+    margin-right: 15px;
 
     &:hover {
         background-color: #ABCDFF80;
@@ -70,12 +90,16 @@ export default {
     &:first-child {
         width: 61px;
         height: 62px;
-        margin-right: 20px;
+
         @media (max-width: $lg) {
             width: 50px;
             height: 50px;
             margin-right: 10px;
         }
+    }
+
+    &:last-child {
+        margin-right: 0;
     }
 }
 
