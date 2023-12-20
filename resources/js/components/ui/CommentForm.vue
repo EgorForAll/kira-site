@@ -1,4 +1,5 @@
 <script>
+import Spinner from "../ui/Spinner.vue";
 import {mapGetters} from "vuex";
 import {useVuelidate} from '@vuelidate/core'
 import {required, minLength} from '@vuelidate/validators'
@@ -6,6 +7,7 @@ import {isUser, isIncludesHtml} from "@/utils.js";
 
 export default {
     name: 'CommentForm',
+    components: {Spinner},
     setup() {
         return {v$: useVuelidate()}
     },
@@ -13,6 +15,7 @@ export default {
     data() {
         return {
             error: '',
+            isLoading: false,
             form: {
                 comment: ''
             }
@@ -23,8 +26,9 @@ export default {
             e.preventDefault()
             const isFormCorrect = await this.v$.$validate()
             if (isFormCorrect) {
+                this.isLoading = true;
                 const data = {
-                    comment: this.$refs.commentInput.value,
+                    comment: this.form.comment,
                     user: this.user.name,
                     post_id: this.$props.postId
                 }
@@ -32,10 +36,9 @@ export default {
                 this.$axios.get('/sanctum/csrf-cookie').then(response => {
                     this.$axios.post('laravel_route/comments', data).then(() => this.$emit('loadNewComments'))
                 }).catch((err) => alert(`Произошла ошибка ${err}`))
-
-                this.$emit('closeCommentInput')
-
+                this.form.comment = ''
             }
+            setTimeout(() => this.isLoading = false, 500)
         },
     },
     computed: {
@@ -65,12 +68,28 @@ export default {
                 Пожалуйста, авторизируйтесь
             </p>
         </div>
-        <button type="submit" @submit="submitForm" class="comment__submit">Опубликовать</button>
+
+        <div class="form-footer">
+            <button type="submit" @submit="submitForm" :disabled="isLoading" class="comment__submit">Опубликовать</button>
+            <Spinner v-if="isLoading"/>
+        </div>
     </form>
 </template>
 
 <style scoped lang="scss">
 @import "../../../scss/main";
+
+.form-footer {
+    display: flex;
+    align-items: center;
+}
+
+.form-footer .spinner-border {
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+    margin-top: 5px;
+}
 
 .error-msg {
     font-size: 12px;
@@ -105,6 +124,14 @@ export default {
     height: 30px;
     border-radius: 5px;
     @include trans(background-color, 0.2s);
+
+    &:disabled {
+        background-color: #4a5568;
+
+        &:hover {
+            background-color: #4a5568;
+        }
+    }
 
     @media (max-width: $md) {
         font-size: 12px;

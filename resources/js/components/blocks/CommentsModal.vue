@@ -47,7 +47,7 @@ export default {
             <transition name="custom-classes-transition"
                         enter-active-class="cssanimation fadeIn">
                 <CommentForm :current-comments="postComments" :post-id="postId" :is-add-new-comment="isAddNewComment"
-                             @closeCommentInput="isAddNewComment = !isAddNewComment" @loadNewComments="loadComments(postId)"/>
+                              @loadNewComments="loadComments(postId)"/>
             </transition>
         </div>
     </div>

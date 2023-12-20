@@ -53,7 +53,7 @@ export default {
                         :is-comment-shown="isCommentsShown"/>
             <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInLeft"
                         leave-active-class="cssanimation fadeOutLeft">
-                <comments :post-id="currentPost.id" v-if="isCommentsShown && comments.length > 0" :toggle-comment="toggleComment"/>
+                <comments :post-id="currentPost.id" v-if="isCommentsShown" :toggle-comment="toggleComment"/>
             </transition>
             <pagination/>
         </div>
