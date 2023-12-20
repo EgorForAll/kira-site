@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Post\StoreRequest;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PostController extends BaseController
 {
-    public function  index() {
+
+    public function index()
+    {
         $posts = Post::paginate(9);
         return PostResource::collection($posts);
     }
@@ -31,7 +34,7 @@ class PostController extends Controller
         $response = [
             'success' => $success,
             'message' => $messages,
-            ];
+        ];
 
         return response()->json($response);
     }
@@ -50,7 +53,8 @@ class PostController extends Controller
         return response()->json($response);
     }
 
-    public function likes($id) {
+    public function likes($id)
+    {
         $post = Post::find($id);
         $likes = $post->likeCount;
         $liked = $post->liked;
@@ -60,5 +64,15 @@ class PostController extends Controller
         ];
 
         return response()->json($response);
+    }
+
+    public function store(StoreRequest $request)
+    {
+        $data = $request->validated();
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('uploads', 'public');
+            $data->image = $path;
+        }
+        $this->service->store($data);
     }
 }

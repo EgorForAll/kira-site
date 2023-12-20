@@ -23,6 +23,7 @@ Route::get('/{vue_capture?}', function () {
 
 Route::group(['prefix' => 'laravel_route'], function () {
     Route::get('/posts', PostController::class . '@index');
+    Route::post('/posts/create', [PostController::class, 'store'])->name('post-create');
     Route::get('/user', [UserController::class, 'isUser'])->middleware('auth:sanctum');
     Route::get('/comments/{post_id}', CommentController::class . '@index');
     Route::post('/comments', [CommentController::class, 'create'])->name('createComment');

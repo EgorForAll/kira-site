@@ -16,6 +16,12 @@ export default  {
                 this.onCloseBtn()
             }
         },
+        onSubmit(e) {
+            e.preventDefault()
+            const formData = new FormData(this.$refs.formRef);
+            console.log(formData)
+            this.$axios.post('laravel_route/posts/create', formData).then((res) => console.log(res))
+        }
     },
     mounted() {
         window.addEventListener('keydown', this.onEscDown)
@@ -31,18 +37,18 @@ export default  {
         <div class="new-post__header d-flex justify-content-end">
             <button @click="onCloseBtn"  type="button" class="btn-close modal-card__btn-close" aria-label="Закрыть"></button>
         </div>
-        <form class="new-post__form" action="" enctype="multipart/form-data" method="post">
+        <form ref="formRef" class="new-post__form" action="" enctype="multipart/form-data" method="post">
             <div class="new-post-title pt-2 pb-2 pt-lg-3 pb-lg-3">
                 <label for="title">Название поста:</label>
-                <input type="text" class="new-post__title-input" name="title" id="title">
+                <input ref="nameRef" type="text" class="new-post__title-input" name="title" id="title">
             </div>
             <div class="new-post__content pt-2 pb-2 pt-lg-3 pb-lg-3">
                 <label class="file-label" for="image">Фото</label>
-                <input type="file" class="new-post__image" id="image" name="image" accept="image/png, image/jpeg">
-                <textarea name="description" id="description"  class="new-post__text-area"></textarea>
+                <input ref="fileRef" type="file" class="new-post__image" id="image" name="image" accept="image/png, image/jpeg">
+                <textarea ref="contentRef" name="content" id="content"  class="new-post__text-area"></textarea>
             </div>
             <div class="new-post__footer">
-                <button type="submit" class="btn btn-primary new-post__btn">Опубликовать</button>
+                <button @click="onSubmit" type="submit" class="btn btn-primary new-post__btn">Опубликовать</button>
                 <button class="btn btn-secondary new-post__btn ms-3" type="reset">Сбросить</button>
             </div>
         </form>
