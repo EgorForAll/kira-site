@@ -24,7 +24,6 @@ class PostFactory extends Factory
             'title' => $this->faker->word,
             'content' => $this->faker->text,
             'image' => $this->faker->imageUrl,
-            'likes' => random_int(1, 10),
             'is_published' => 1,
         ];
     }

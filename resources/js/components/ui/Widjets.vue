@@ -4,12 +4,30 @@ import CommentSVG from "../../../assets/images/comment.svg"
 
 export default {
     name: 'Widgets',
-    props: ['likes', 'comments'],
+    props: ['comments', 'postId'],
+    data() {
+        return {
+            likes: 0
+        }
+    },
     components: {HeartSVG, CommentSVG},
     methods: {
         onClickBtn() {
             this.$emit('showComments')
+        },
+        // onLike() {
+        //     this.$axios.post(`/laravel_route/like/${this.$props.postId}`).then((res) => console.log(res))
+        // },
+        getLikes() {
+            this.$axios.get(`/laravel_route/likes/${this.$props.postId}`).then((res) => {
+                if (res.status === 200) {
+                    this.likes = res.data.likes
+                }
+            })
         }
+    },
+    created() {
+        this.getLikes()
     }
 }
 </script>
@@ -18,7 +36,7 @@ export default {
     <div class="widgets__buttons">
         <div class="widgets__button-wrapper">
             <span class="widgets__number">{{likes}}</span>
-            <button class="widgets__button btn-heart">
+            <button @click="onLike" class="widgets__button btn-heart">
                 <HeartSVG/>
             </button>
         </div>

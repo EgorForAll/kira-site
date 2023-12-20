@@ -52,7 +52,7 @@ export default {
             <p class="card__text">{{ post.content }}</p>
         </div>
         <div class="card__widgets pt-lg-3 pb-lg-3 pb-md-3 pt-md-3 pt-2 pb-2">
-            <widgets :likes="post.likes" :comments="comments" @showComments="toggleComment()"/>
+            <widgets :post-id="post.id" :comments="comments" @showComments="toggleComment()"/>
             <human-date :in-date="post.created_at"/>
         </div>
         <transition name="custom-classes-transition"

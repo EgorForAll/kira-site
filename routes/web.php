@@ -26,6 +26,9 @@ Route::group(['prefix' => 'laravel_route'], function () {
     Route::get('/user', [UserController::class, 'isUser'])->middleware('auth:sanctum');
     Route::get('/comments/{post_id}', CommentController::class . '@index');
     Route::post('/comments', [CommentController::class, 'create'])->name('createComment');
+    Route::post('/like/{post}', [PostController::class, 'like'])->name('like-post');
+    Route::post('/unlike/{post}', [PostController::class, 'unlike'])->name('unlike-post');
+    Route::get('/likes/{post}', [PostController::class, 'likes'])->name('likes-post');
 });
 
 
