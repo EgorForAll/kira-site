@@ -98,7 +98,7 @@ export default {
                     })
                         .then(response => {
                             if (response.data.success) {
-                                this.$router.push('/')
+                                this.$router.push({name: 'auth'})
                             } else {
                                 this.error = response.data.message
                             }

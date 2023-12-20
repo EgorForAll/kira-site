@@ -116,16 +116,16 @@ export default {
     top: 50%;
     left: 50%;
     width: 600px;
-    height: 700px;
+    height: 620px;
     padding: 20px 40px;
-    margin-top: -350px;
+    margin-top: -340px;
     margin-left: -250px;
     background-color: #ABCDFF;
     z-index: 3;
     border-radius: 10px;
     @media (max-width: $lg) {
         width: 500px;
-        height: 700px;
+        height: 630px;
         margin-left: -225px;
         margin-top: -350px;
     }

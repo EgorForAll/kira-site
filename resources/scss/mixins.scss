@@ -5,7 +5,7 @@
 }
 
 @mixin text-content () {
-    max-height: 175px;
+    max-height: 130px;
     overflow: auto;
     text-align: justify;
     margin: 0;
@@ -17,14 +17,14 @@
     scrollbar-width: var(--scrollbarWidth);
     scrollbar-color: var(--scrollbarThumbDesc) var(--scrollbarBgDesc);
     @media (max-width: $lg) {
-        max-height: 215px;
+        max-height: 130px;
         font-size: 16px;
         line-height: 23px;
     }
     @media (max-width: $md) {
         font-size: 14px;
         line-height: 18px;
-        max-height: 185px;
+        height: 130px;
     }
 
     &::-webkit-scrollbar {
