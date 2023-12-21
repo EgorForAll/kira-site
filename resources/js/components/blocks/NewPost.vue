@@ -1,10 +1,12 @@
 <script>
+import Spinner from "@/components/ui/Spinner.vue";
 import {mapActions} from "vuex";
 import {useVuelidate} from '@vuelidate/core'
 import {required, minLength} from '@vuelidate/validators'
 import {isIncludesHtml} from "../../utils.js";
 export default {
     name: 'NewPost',
+    components: {Spinner},
     setup() {
         return {v$: useVuelidate()}
     },
@@ -37,26 +39,31 @@ export default {
                 this.onCloseBtn()
             }
         },
-        onSubmit(e) {
+        async onSubmit(e) {
             e.preventDefault()
-            this.isLoading = true
-            const data = new FormData()
-            data.append('title', this.title)
-            data.append('content', this.content)
-            data.append('image', this.$refs.fileRef.files[0])
-            const options = {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+            const isFormCorrect = await this.v$.$validate()
+            if (isFormCorrect) {
+                this.isLoading = true
+                const data = new FormData()
+                data.append('title', this.title)
+                data.append('content', this.content)
+                data.append('image', this.$refs.fileRef.files[0])
+                const options = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 }
+                this.$axios.post('laravel_route/posts/create', data, options).then((res) =>{
+                    if (res.status === 200) {
+                        this.updatePosts({url: 'http://127.0.0.1:8000/laravel_route/posts', isUpdate: true})
+                        document.querySelector('body').classList.remove('overlay')
+                        this.isLoading = false
+                        this.setCreateNew()
+                    }
+                })
+            } else {
+                alert('Проверьте правильность введенных данных')
             }
-            this.$axios.post('laravel_route/posts/create', data, options).then((res) =>{
-                if (res.status === 200) {
-                    this.updatePosts({url: 'http://127.0.0.1:8000/laravel_route/posts', isUpdate: true})
-                    document.querySelector('body').classList.remove('overlay')
-                    this.isLoading = false
-                    this.setCreateNew()
-                }
-            })
         }
     },
     mounted() {
@@ -87,7 +94,8 @@ export default {
             </div>
             <div class="new-post__footer">
                 <button :disabled="isLoading" @click="onSubmit" type="submit" class="btn btn-primary new-post__btn">Опубликовать</button>
-                <button class="btn btn-secondary new-post__btn ms-3" type="reset">Сбросить</button>
+                <button class="btn btn-secondary new-post__btn ms-md-3 ms-1" type="reset">Сбросить</button>
+                <spinner v-if="isLoading" />
             </div>
         </form>
     </div>
@@ -95,6 +103,13 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../scss/main";
+
+.new-post__footer .spinner-border {
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
 
 .new-post__form label {
     font-size: 14px;
@@ -120,6 +135,7 @@ export default {
     @media (max-width: $md) {
         height: 100px;
         font-size: 12px;
+        margin-top: 15px;
     }
 }
 
@@ -136,7 +152,8 @@ export default {
         height: 400px;
     }
     @media (max-width: $md) {
-        height: 350px;
+        height: 330px;
+        margin-top: -290px;
     }
 }
 
@@ -153,6 +170,13 @@ export default {
 
     &:focus {
         outline: none;
+    }
+}
+
+.new-post__image {
+    font-size: 16px;
+    @media (max-width: $md) {
+        font-size: 12px;
     }
 }
 </style>
