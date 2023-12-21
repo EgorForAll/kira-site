@@ -13,7 +13,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::paginate(9);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(9);
         return PostResource::collection($posts);
     }
 

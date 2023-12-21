@@ -14,7 +14,7 @@ export default  {
            setPostsPerPage: 'posts/setPostsPerPage'
         }),
         loadMore() {
-            this.loadPosts(this.links.next)
+            this.loadPosts({url: this.links.next, isUpdate: false})
             this.setPostsPerPage();
             this.loadComments(this.postsPerPage)
         },
