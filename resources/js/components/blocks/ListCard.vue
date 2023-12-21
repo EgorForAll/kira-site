@@ -2,7 +2,7 @@
 import Widgets from "../ui/Widjets.vue";
 import BalloonComment from "../ui/BalloonComment.vue";
 import HumanDate from "../ui/HumanDate.vue";
-import {observer} from "@/utils.js";
+import {findSrc, observer} from "@/utils.js";
 import CommentForm from "../ui/CommentForm.vue";
 import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
 import {loadComments} from "@/store/comments.js";
@@ -10,6 +10,7 @@ import {loadComments} from "@/store/comments.js";
 export default {
     name: 'ListCard',
     props: ['post'],
+    mixins: [findSrc],
     components: {CommentForm, BalloonComment, Widgets, CommentLeaveBtn, HumanDate},
     data() {
         return {
@@ -19,6 +20,9 @@ export default {
         }
     },
     methods: {
+        image() {
+            return findSrc(this.$props.post.image);
+        },
         toggleComment() {
             this.$data.isCommentShow = !this.$data.isCommentShow
         },
@@ -46,7 +50,7 @@ export default {
             <span class="card__title">#{{ post.title }}</span>
         </header>
         <div class="card__img-wrapper">
-            <img :src="post.image" :alt="post.title" width="100%" class="card__img">
+            <img :src="image()" :alt="post.title" width="100%" class="card__img">
         </div>
         <div class="card__content pt-3 pb-3 pt-md-2 pb-md-2 pt-lg-4 pb-lg-4">
             <p class="card__text">{{ post.content }}</p>

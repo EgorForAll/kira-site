@@ -75,3 +75,8 @@ export const isIncludesHtml = (value) => !findHtml.test(value)
 export const isName = (value) => nameInput.test(value)
 
 export const  isPassword = (value) => passwordInput.test(value)
+
+export const findSrc = (value) => {
+    const path = value.slice(7)
+    return `http://127.0.0.1:8000/storage/${path}`
+}

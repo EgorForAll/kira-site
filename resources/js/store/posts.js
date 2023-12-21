@@ -16,6 +16,9 @@ export default {
         SET_POSTS(state, payload) {
             state.posts = state.posts.concat(payload)
         },
+        UPDATE_POSTS(state, payload) {
+          state.posts = payload
+        },
         SET_CURRENT_POST(state, payload) {
             state.currentPost = payload
         },
@@ -53,10 +56,12 @@ export default {
         }
     },
     actions: {
-        async fetchPosts({commit}, url) {
+        async fetchPosts({commit},options) {
             try {
+                const {url, isUpdate} = options;
                 const {data, meta, links} = await loadPosts(url);
-                commit("SET_POSTS", data);
+                const mutation = isUpdate ? "UPDATE_POSTS" : "SET_POSTS"
+                commit(mutation, data);
                 commit("SET_LINKS", links);
                 commit("SET_META", meta);
             } catch (err) {
@@ -71,6 +76,6 @@ export default {
         },
         setCreateNew({commit}) {
             commit('SET_CREATE_NEW')
-        }
+        },
     },
 };

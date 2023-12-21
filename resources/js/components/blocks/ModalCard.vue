@@ -4,6 +4,7 @@ import Comments from "./CommentsModal.vue";
 import HumanDate from "../ui/HumanDate.vue";
 import {mapActions, mapGetters} from "vuex";
 import {toRaw} from "vue";
+import {findSrc} from "@/utils.js";
 
 export default {
     name: 'ModalCard',
@@ -16,6 +17,9 @@ export default {
         ...mapActions({
             loadComments: "comments/postComments"
         }),
+        image() {
+          return findSrc(this.currentPost.image)
+        },
         closeWindow() {
             const setCurrentPost = (value) => {
                 this.setCurrentPost(value)
@@ -73,7 +77,7 @@ export default {
         </header>
         <div class="modal-card__body pt-2 pb-2">
             <div class="modal-card__img-wrapper">
-                <img :src="currentPost.image" :alt="currentPost.title" class="modal-card__img" width="100%" height="350px">
+                <img :src="image()" :alt="currentPost.title" class="modal-card__img" width="100%" height="350px">
             </div>
             <div class="modal-card__content pt-3 pb-3">
                 <p class="content__text m-0">{{currentPost.content}}</p>

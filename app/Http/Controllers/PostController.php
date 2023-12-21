@@ -6,8 +6,9 @@ use App\Http\Requests\Post\StoreRequest;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class PostController extends BaseController
+class PostController extends Controller
 {
 
     public function index()
@@ -68,11 +69,13 @@ class PostController extends BaseController
 
     public function store(StoreRequest $request)
     {
-        $data = $request->validated();
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('uploads', 'public');
-            $data->image = $path;
+        try {
+            $data = $request->validated();
+            $data['image'] = Storage::put('public/images', $data['image']);
+            Post::create($data);
+        } catch (\Exception $e) {
+            dd($e);
         }
-        $this->service->store($data);
+
     }
 }

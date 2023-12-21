@@ -1,9 +1,30 @@
 <script>
 import {mapActions} from "vuex";
-
-export default  {
+import {useVuelidate} from '@vuelidate/core'
+import {required, minLength} from '@vuelidate/validators'
+import {isIncludesHtml} from "../../utils.js";
+export default {
     name: 'NewPost',
+    setup() {
+        return {v$: useVuelidate()}
+    },
+    data() {
+        return {
+            isLoading: false,
+            title: '',
+            content: '',
+        }
+    },
+    validations() {
+        return {
+            title: {required, minLength: minLength(2), isIncludesHtml},
+            content: {required, minLength: minLength(5), isIncludesHtml}
+        }
+    },
     methods: {
+        ...mapActions({
+            updatePosts: "posts/fetchPosts"
+        }),
         ...mapActions({
             setCreateNew: "posts/setCreateNew"
         }),
@@ -18,9 +39,24 @@ export default  {
         },
         onSubmit(e) {
             e.preventDefault()
-            const formData = new FormData(this.$refs.formRef);
-            console.log(formData)
-            this.$axios.post('laravel_route/posts/create', formData).then((res) => console.log(res))
+            this.isLoading = true
+            const data = new FormData()
+            data.append('title', this.title)
+            data.append('content', this.content)
+            data.append('image', this.$refs.fileRef.files[0])
+            const options = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+            this.$axios.post('laravel_route/posts/create', data, options).then((res) =>{
+                if (res.status === 200) {
+                    this.updatePosts({url: 'http://127.0.0.1:8000/laravel_route/posts', isUpdate: true})
+                    document.querySelector('body').classList.remove('overlay')
+                    this.isLoading = false
+                    this.setCreateNew()
+                }
+            })
         }
     },
     mounted() {
@@ -35,20 +71,22 @@ export default  {
 <template>
     <div class="new-post">
         <div class="new-post__header d-flex justify-content-end">
-            <button @click="onCloseBtn"  type="button" class="btn-close modal-card__btn-close" aria-label="Закрыть"></button>
+            <button @click="onCloseBtn" type="button" class="btn-close modal-card__btn-close"
+                    aria-label="Закрыть"></button>
         </div>
-        <form ref="formRef" class="new-post__form" action="" enctype="multipart/form-data" method="post">
+        <form  class="new-post__form" action="" enctype="multipart/form-data" method="post">
             <div class="new-post-title pt-2 pb-2 pt-lg-3 pb-lg-3">
                 <label for="title">Название поста:</label>
-                <input ref="nameRef" type="text" class="new-post__title-input" name="title" id="title">
+                <input v-model.trim="v$.title.$model" type="text" class="new-post__title-input" name="title" id="title">
             </div>
             <div class="new-post__content pt-2 pb-2 pt-lg-3 pb-lg-3">
                 <label class="file-label" for="image">Фото</label>
-                <input ref="fileRef" type="file" class="new-post__image" id="image" name="image" accept="image/png, image/jpeg">
-                <textarea ref="contentRef" name="content" id="content"  class="new-post__text-area"></textarea>
+                <input ref="fileRef" type="file" class="new-post__image" id="image" name="image"
+                       accept="image/png, image/jpeg, image/jpg">
+                <textarea v-model.trim="v$.content.$model"  name="content" id="content" class="new-post__text-area"></textarea>
             </div>
             <div class="new-post__footer">
-                <button @click="onSubmit" type="submit" class="btn btn-primary new-post__btn">Опубликовать</button>
+                <button :disabled="isLoading" @click="onSubmit" type="submit" class="btn btn-primary new-post__btn">Опубликовать</button>
                 <button class="btn btn-secondary new-post__btn ms-3" type="reset">Сбросить</button>
             </div>
         </form>
@@ -84,6 +122,7 @@ export default  {
         font-size: 12px;
     }
 }
+
 .file-label {
     @include visually-hidden;
 }
@@ -100,6 +139,7 @@ export default  {
         height: 350px;
     }
 }
+
 .new-post__title-input {
     margin-left: 10px;
     background-color: transparent;

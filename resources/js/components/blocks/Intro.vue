@@ -94,7 +94,6 @@ export default {
         @media (max-width: $lg) {
             width: 50px;
             height: 50px;
-            margin-right: 10px;
         }
     }
 

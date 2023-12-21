@@ -1,11 +1,15 @@
 <script>
 import {mapActions} from "vuex";
 import {toRaw} from "vue";
+import {findSrc} from "@/utils.js";
 
 export default {
     name: 'PostCard',
     props: ['post'],
     methods: {
+        image() {
+            return findSrc(this.$props.post.image);
+        },
         ...mapActions({
             setCurrentPost: "posts/setCurrentPost"
         }),
@@ -20,7 +24,7 @@ export default {
 
 <template>
     <li @click="setCurrentPost(currentPost)" class="posts__item cssanimation fadeInBottom">
-        <img :src="post.image" :alt="post.title" class="posts__img">
+        <img :src="image()" :alt="post.title" class="posts__img">
     </li>
 </template>
 
