@@ -47,6 +47,15 @@
     }
 }
 
+.edit-svg {
+    width: 40px;
+    height: 40px;
+    @include trans(opacity, 0.3s);
+    &:hover {
+        opacity: 0.5;
+    }
+}
+
 .overlay {
     overflow: hidden;
     position: relative;

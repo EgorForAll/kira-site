@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Post\StoreRequest;
+use App\Http\Requests\Post\UpdateRequest;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -77,5 +78,17 @@ class PostController extends Controller
             dd($e);
         }
 
+    }
+
+    public function update(UpdateRequest $request, Post $post) {
+        try {
+             $data = $request->validated();
+            $prevImage = str_replace('/storage', '', $post->image);
+            Storage::delete($prevImage);
+             $data['image'] = Storage::put('public/images', $data['image']);
+             $post->update($data);
+        } catch (\Exception $e) {
+            var_dump($e);
+        }
     }
 }

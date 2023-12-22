@@ -6,12 +6,14 @@ import {findSrc, observer} from "@/utils.js";
 import CommentForm from "../ui/CommentForm.vue";
 import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
 import {loadComments} from "@/store/comments.js";
+import EditSVG from "../../../assets/images/edit.svg?component";
+import {mapGetters, mapActions} from "vuex";
 
 export default {
     name: 'ListCard',
     props: ['post'],
     mixins: [findSrc],
-    components: {CommentForm, BalloonComment, Widgets, CommentLeaveBtn, HumanDate},
+    components: {CommentForm, BalloonComment, Widgets, CommentLeaveBtn, HumanDate, EditSVG},
     data() {
         return {
             isCommentShow: false,
@@ -20,6 +22,9 @@ export default {
         }
     },
     methods: {
+        ...mapActions({
+            setCurrentPost: 'posts/setCurrentPost'
+        }),
         image() {
             return findSrc(this.$props.post.image);
         },
@@ -32,7 +37,17 @@ export default {
             } catch (err) {
                 throw new err
             }
+        },
+        onClickEdit() {
+            this.setCurrentPost(this.$props.post)
+            document.querySelector('body').classList.add('overlay')
+            this.$emit('openEditModal')
         }
+    },
+    computed: {
+        ...mapGetters({
+            user: "auth/getUser"
+        })
     },
     created() {
         this.fetchComments()
@@ -46,8 +61,12 @@ export default {
 
 <template>
     <li class="list__card cssanimation" ref="listItem">
-        <header class="card__header pb-3 pt-0">
+        <header class="card__header d-flex justify-content-between pb-3 pt-0">
             <span class="card__title">#{{ post.title }}</span>
+            <button @click="onClickEdit" v-if="user.role === 'admin'" class="list__edit-btn">
+                <EditSVG />
+            </button>
+
         </header>
         <div class="card__img-wrapper">
             <img :src="image()" :alt="post.title" width="100%" class="card__img">
@@ -84,6 +103,12 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../scss/main";
+
+.list__edit-btn {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+}
 
 .comment__footer {
     padding: 20px;
