@@ -33,6 +33,7 @@ export default {
 
 <template>
     <section class="intro">
+        <h2 class="intro__title">Знакомство с Кирой</h2>
         <div class="container pt-3 pb-3 pt-md-4 pb-md-4">
             <div class="row intro__row">
                 <div class="intro__avatar-wrapper">
@@ -64,6 +65,10 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../scss/main";
+
+.intro__title {
+    @include visually-hidden();
+}
 
 .intro__btn {
     padding: 5px;
@@ -114,7 +119,11 @@ export default {
     font-size: 24px;
     font-style: normal;
     font-weight: 350;
-    line-height: 35px; /* 145.833% */
+    line-height: 35px;
+    border: 1px solid #4C80CE;
+    padding: 20px;
+    border-radius: 20px;
+
 
     @media (max-width: $lg) {
         font-size: 18px;
@@ -140,6 +149,7 @@ export default {
 }
 
 .intro__avatar {
+    position: relative;
     object-fit: cover;
     border-radius: 50%;
     border: 10px solid $blue;
@@ -153,6 +163,18 @@ export default {
         width: 150px;
         height: 150px;
         border-width: 3px;
+    }
+
+    &::after {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 200px;
+        height: 150px;
+        content: '';
+        background-image: url("../../../assets/images/arrow.svg");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
     }
 }
 

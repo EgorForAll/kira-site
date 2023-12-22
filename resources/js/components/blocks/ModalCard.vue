@@ -136,7 +136,7 @@ export default {
     border-radius: 10px;
     box-shadow: 0 0 5px 0 #236585;
     @media (max-width: $lg) {
-        height: 300px;
+        height: 450px;
     }
 
     @media (max-width: $md) {

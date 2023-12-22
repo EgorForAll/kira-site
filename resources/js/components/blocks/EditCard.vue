@@ -1,13 +1,13 @@
 <script>
-import Spinner from "@/components/ui/Spinner.vue";
+import Spinner from "..//ui/Spinner.vue";
 import {mapActions} from "vuex";
 import {useVuelidate} from '@vuelidate/core'
 import {isIncludesHtml} from "../../utils.js";
-
 export default {
     name: 'NewPost',
     components: {Spinner},
     props: ['currentTitle', 'currentContent', 'currentImage', 'id'],
+    emits: ['toggleEditModal'],
     setup() {
         return {v$: useVuelidate()}
     },
@@ -31,9 +31,12 @@ export default {
         ...mapActions({
             setCurrentPost: "posts/setCurrentPost"
         }),
+        openEditModal() {
+            this.$emit('toggleEditModal')
+        },
         onCloseBtn() {
             this.setCurrentPost(null)
-            this.$emit('openEditModal')
+            this.$emit('toggleEditModal')
             document.querySelector('body').classList.remove('overlay')
         },
         onEscDown(e) {
@@ -62,7 +65,7 @@ export default {
                         document.querySelector('body').classList.remove('overlay')
                         this.isLoading = false
                         this.setCurrentPost(null)
-                        this.$emit('openEditModal')
+                        this.openEditModal()
                     }
                 })
             } else {
@@ -80,28 +83,28 @@ export default {
 </script>
 
 <template>
-    <div class="new-post">
-        <div class="new-post__header d-flex justify-content-end">
-            <button @click="onCloseBtn" type="button" class="btn-close modal-card__btn-close"
+    <div class="edit-post">
+        <div class="edit-post__header d-flex justify-content-end">
+            <button @click="onCloseBtn()" type="button" class="btn-close modal-card__btn-close"
                     aria-label="Закрыть"></button>
         </div>
-        <form class="new-post__form" action="" enctype="multipart/form-data" method="post">
-            <div class="new-post-title pt-2 pb-2 pt-lg-3 pb-lg-3">
+        <form class="edit-post__form" action="" enctype="multipart/form-data" method="post">
+            <div class="edit-post-title pt-2 pb-2 pt-lg-3 pb-lg-3">
                 <label for="title">Название поста:</label>
-                <input v-model.trim="v$.title.$model" type="text" class="new-post__title-input" name="title" id="title">
+                <input v-model.trim="v$.title.$model" type="text" class="edit-post__title-input" name="title" id="title">
             </div>
-            <div class="new-post__content pt-2 pb-2 pt-lg-3 pb-lg-3">
+            <div class="edit-post__content pt-2 pb-2 pt-lg-3 pb-lg-3">
                 <label class="file-label" for="image">Фото</label>
-                <input ref="fileRef" type="file" class="new-post__image" id="image" name="image"
+                <input ref="fileRef" type="file" class="edit-post__image" id="image" name="image"
                        accept="image/png, image/jpeg, image/jpg">
                 <textarea v-model.trim="v$.content.$model" name="content" id="content"
-                          class="new-post__text-area"></textarea>
+                          class="edit-post__text-area"></textarea>
             </div>
-            <div class="new-post__footer">
-                <button :disabled="isLoading" @click="onSubmit" type="submit" class="btn btn-primary new-post__btn">
+            <div class="edit-post__footer">
+                <button :disabled="isLoading" @click="onSubmit" type="submit" class="btn btn-primary edit-post__btn">
                     Редактировать
                 </button>
-                <button class="btn btn-secondary new-post__btn ms-md-3 ms-1" type="reset">Сбросить</button>
+                <button class="btn btn-secondary edit-post__btn ms-md-3 ms-1" type="reset">Сбросить</button>
                 <spinner v-if="isLoading"/>
             </div>
         </form>
@@ -111,18 +114,19 @@ export default {
 <style scoped lang="scss">
 @import "../../../scss/main";
 
-.new-post__footer .spinner-border {
+.edit-post__footer .spinner-border {
     width: 20px;
     height: 20px;
     margin-left: 20px;
     margin-top: 10px;
+
 }
 
-.new-post__form label {
+.edit-post__form label {
     font-size: 14px;
 }
 
-.new-post__btn {
+.edit-post__btn {
     font-size: 18px;
     @media (max-width: $md) {
         font-size: 12px;
@@ -130,7 +134,7 @@ export default {
     }
 }
 
-.new-post__text-area {
+.edit-post__text-area {
     margin-top: 30px;
     width: 100%;
     height: 150px;
@@ -150,7 +154,7 @@ export default {
     @include visually-hidden;
 }
 
-.new-post {
+.edit-post {
     @include modal-card();
     height: 450px;
     margin-left: -300px;
@@ -164,7 +168,7 @@ export default {
     }
 }
 
-.new-post__title-input {
+.edit-post__title-input {
     margin-left: 10px;
     background-color: transparent;
     border: none;
@@ -180,7 +184,7 @@ export default {
     }
 }
 
-.new-post__image {
+.edit-post__image {
     font-size: 16px;
     @media (max-width: $md) {
         font-size: 12px;

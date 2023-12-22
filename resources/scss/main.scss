@@ -1,6 +1,22 @@
 @import "variables";
 @import "mixins";
 
+body {
+    margin: 0;
+    padding: 0;
+    @media (max-width: $lg) {
+        height: 100%;
+    }
+}
+
+html {
+    height: 100%;
+}
+
+html, body {
+    width: 100%;
+}
+
 .logo {
     width: 195px;
     height: 56px;
@@ -53,6 +69,11 @@
     @include trans(opacity, 0.3s);
     &:hover {
         opacity: 0.5;
+    }
+
+    @media (max-width: $md) {
+        width: 25px;
+        height: 25px;
     }
 }
 

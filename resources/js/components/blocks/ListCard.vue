@@ -12,13 +12,15 @@ import {mapGetters, mapActions} from "vuex";
 export default {
     name: 'ListCard',
     props: ['post'],
+    emits: ['toggleEditModal', 'toggleDeleteModal'],
     mixins: [findSrc],
     components: {CommentForm, BalloonComment, Widgets, CommentLeaveBtn, HumanDate, EditSVG},
     data() {
         return {
             isCommentShow: false,
             isAddNewComment: false,
-            comments: []
+            comments: [],
+            isDelete: false
         }
     },
     methods: {
@@ -27,6 +29,10 @@ export default {
         }),
         image() {
             return findSrc(this.$props.post.image);
+        },
+        openDeleteWindow() {
+            document.querySelector('body').classList.add('overlay')
+            this.$emit('toggleDeleteModal', this.$props.post)
         },
         toggleComment() {
             this.$data.isCommentShow = !this.$data.isCommentShow
@@ -41,7 +47,7 @@ export default {
         onClickEdit() {
             this.setCurrentPost(this.$props.post)
             document.querySelector('body').classList.add('overlay')
-            this.$emit('openEditModal')
+            this.$emit('toggleEditModal')
         }
     },
     computed: {
@@ -64,7 +70,7 @@ export default {
         <header class="card__header d-flex justify-content-between pb-3 pt-0">
             <span class="card__title">#{{ post.title }}</span>
             <button @click="onClickEdit" v-if="user.role === 'admin'" class="list__edit-btn">
-                <EditSVG />
+                <EditSVG/>
             </button>
 
         </header>
@@ -77,6 +83,9 @@ export default {
         <div class="card__widgets pt-lg-3 pb-lg-3 pb-md-3 pt-md-3 pt-2 pb-2">
             <widgets :post-id="post.id" :comments="comments" @showComments="toggleComment()"/>
             <human-date :in-date="post.created_at"/>
+        </div>
+        <div v-if="user.role === 'admin'" class="card__delete d-flex justify-content-end mb-md-3 mb-1 mt-2">
+            <button class="btn btn-secondary btn-delete" @click="openDeleteWindow">Удалить</button>
         </div>
         <transition name="custom-classes-transition"
                     enter-active-class="cssanimation fadeIn">
@@ -93,7 +102,9 @@ export default {
                     <transition name="custom-classes-transition"
                                 enter-active-class="cssanimation fadeIn"
                                 leave-active-class="cssanimation fadeOut">
-                        <CommentForm :post-id="post.id" :is-add-new-comment="isAddNewComment"  @closeCommentInput="isAddNewComment = !isAddNewComment" @loadNewComments="fetchComments"/>
+                        <CommentForm :post-id="post.id" :is-add-new-comment="isAddNewComment"
+                                     @closeCommentInput="isAddNewComment = !isAddNewComment"
+                                     @loadNewComments="fetchComments"/>
                     </transition>
                 </div>
             </div>
@@ -103,6 +114,12 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../scss/main";
+
+.btn-delete {
+    @media (max-width: $md) {
+        font-size: 12px;
+    };
+}
 
 .list__edit-btn {
     border: none;
@@ -224,6 +241,6 @@ export default {
 }
 
 .card__text {
- @include text-content();
+    @include text-content();
 }
 </style>

@@ -40,7 +40,7 @@ export default  {
 
 <template>
     <div class="pagination pt-lg-5 pb-lg-5 pt-4 pb-4">
-        <button @click="loadMore" class="pagination__button" :disabled="isLastPage()">{{isLastPage() ? 'Посты закончились' : 'Загрузить еще'}}</button>
+        <button @click="loadMore" class="pagination__button" :disabled="isLastPage()">Загрузить еще</button>
     </div>
 </template>
 

@@ -35,7 +35,7 @@ export default {
         }),
     },
     created() {
-        this.loadPosts({url: `http://127.0.0.1:8000/laravel_route/posts`, isUpdate: false})
+        this.loadPosts({url: `http://127.0.0.1:8000/laravel_route/posts`, isUpdate: true})
         this.getUser()
     },
 }

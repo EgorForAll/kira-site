@@ -87,8 +87,19 @@ class PostController extends Controller
             Storage::delete($prevImage);
              $data['image'] = Storage::put('public/images', $data['image']);
              $post->update($data);
+             $message = 'post was updated successfully';
         } catch (\Exception $e) {
-            var_dump($e);
+            $message = $e;
         }
+        return response()->json([
+            'success' => $message
+        ]);
+    }
+
+    public function delete(Post $post) {
+        $post->delete();
+        return response()->json([
+            'success' => 'post was deleted successfully'
+        ]);
     }
 }

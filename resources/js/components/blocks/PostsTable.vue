@@ -5,11 +5,11 @@ import ModalCard from "./ModalCard.vue";
 import Comments from "./CommentsModal.vue";
 import Pagination from "../ui/Pagiantion.vue";
 import PostCard from "./PostCard.vue";
-
+import NoPosts from "../ui/NoPosts.vue";
 
 export default {
     name: 'Posts',
-    components: {PostCard, ModalCard, Comments, Pagination},
+    components: {PostCard, ModalCard, Comments, Pagination, NoPosts},
     props: ['posts'],
     data() {
         return {
@@ -43,11 +43,13 @@ export default {
 
 <template>
     <section class="posts">
-        <div class="container pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-5 pb-lg-5">
+        <h2 class="posts__title">Список постов</h2>
+        <div class="container post__container pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-5 pb-lg-5">
             <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInt">
-                <ul class="posts__list me-md-0 ms-md-0">
+                <ul v-if="posts.length" class="posts__list me-md-0 ms-md-0">
                     <post-card  v-for="(post, index) in posts" :post="post" :key="index"/>
                 </ul>
+                <no-posts v-else />
             </transition>
             <modal-card v-if="currentPost" :currentPost="currentPost" :toggle-comment="toggleComment"
                         :is-comment-shown="isCommentsShown"/>
@@ -55,7 +57,7 @@ export default {
                         leave-active-class="cssanimation fadeOutLeft">
                 <comments :post-id="currentPost.id" v-if="isCommentsShown" :toggle-comment="toggleComment"/>
             </transition>
-            <pagination/>
+            <pagination v-if="posts.length >= 9"/>
         </div>
     </section>
 </template>
@@ -63,6 +65,20 @@ export default {
 <style scoped lang="scss">
 @import "../../../scss/main";
 
+.posts__title {
+    @include visually-hidden();
+}
+
+.posts {
+    flex-grow: 1;
+}
+
+.post__container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .posts__list {
     display: grid;
