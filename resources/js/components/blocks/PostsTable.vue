@@ -6,10 +6,11 @@ import Comments from "./CommentsModal.vue";
 import Pagination from "../ui/Pagiantion.vue";
 import PostCard from "./PostCard.vue";
 import NoPosts from "../ui/NoPosts.vue";
+import Spinner from "../ui/Spinner.vue";
 
 export default {
     name: 'Posts',
-    components: {PostCard, ModalCard, Comments, Pagination, NoPosts},
+    components: {PostCard, ModalCard, Comments, Pagination, NoPosts, Spinner},
     props: ['posts', 'comments'],
     data() {
         return {
@@ -45,11 +46,11 @@ export default {
     <section class="posts">
         <h2 class="posts__title">Список постов</h2>
         <div class="container post__container pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-5 pb-lg-5">
+            <Spinner v-if="!posts.length" />
             <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInt">
                 <ul v-if="posts.length" class="posts__list me-md-0 ms-md-0">
                     <post-card  v-for="(post, index) in posts" :post="post" :key="index"/>
                 </ul>
-                <no-posts v-else />
             </transition>
             <modal-card v-if="currentPost" :currentPost="currentPost" :toggle-comment="toggleComment"
                         :is-comment-shown="isCommentsShown" :comments="defineComments(currentPost.id)"/>
@@ -75,6 +76,7 @@ export default {
 
 .post__container {
     height: 100%;
+    min-height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
