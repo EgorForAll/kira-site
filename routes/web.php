@@ -17,9 +17,7 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-Route::get('/{vue_capture?}', function () {
-    return view('welcome');
-});
+Route::get('/{vue_capture?}', [\App\Http\Controllers\HomeController::class, 'index']);
 
 Route::group(['prefix' => 'laravel_route'], function () {
     Route::get('/posts', [PostController::class, 'index']);

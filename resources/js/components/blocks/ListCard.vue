@@ -6,7 +6,7 @@ import {findSrc, observer} from "@/utils.js";
 import CommentForm from "../ui/CommentForm.vue";
 import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
 import EditSVG from "../../../assets/images/edit.svg?component";
-import {mapGetters, mapActions} from "vuex";
+import {mapActions} from "vuex";
 
 export default {
     name: 'ListCard',
@@ -18,7 +18,7 @@ export default {
         return {
             isCommentShow: false,
             isAddNewComment: false,
-            isDelete: false
+            isDelete: false,
         }
     },
     methods: {
@@ -48,11 +48,6 @@ export default {
             this.$emit('toggleEditModal')
         }
     },
-    computed: {
-        ...mapGetters({
-            user: "auth/getUser"
-        })
-    },
     mounted() {
         this.$refs.listItem.style.visibility = 'hidden'
         observer.observe(this.$refs.listItem)
@@ -64,7 +59,7 @@ export default {
     <li class="list__card cssanimation" ref="listItem">
         <header class="card__header d-flex justify-content-between pb-3 pt-0">
             <span class="card__title">#{{ post.title }}</span>
-            <button @click="onClickEdit" v-if="user.role === 'admin'" class="list__edit-btn">
+            <button  @click="onClickEdit" class="list__edit-btn">
                 <EditSVG/>
             </button>
 
@@ -79,7 +74,7 @@ export default {
             <widgets :post-id="post.id" :comments="comments" @showComments="toggleComment()"/>
             <human-date :in-date="post.created_at"/>
         </div>
-        <div v-if="user.role === 'admin'" class="card__delete d-flex justify-content-end mb-md-3 mb-1 mt-2">
+        <div  class="card__delete d-flex justify-content-end mb-md-3 mb-1 mt-2">
             <button class="btn btn-secondary btn-delete" @click="openDeleteWindow">Удалить</button>
         </div>
         <transition name="custom-classes-transition"

@@ -90,8 +90,7 @@ class UserController extends Controller
             $success = true;
             $messages = [
                 'name' => $user->name,
-                'email' => $user->email,
-                'role' => $user->role
+                'email' => $user->email
             ];
         } else {
             $success = false;

@@ -5,6 +5,7 @@ import App from "./components/app/App.vue"
 import Home from "./components/pages/Home.vue"
 import Auth from "./components/pages/Auth.vue";
 import Register from "./components/pages/Register.vue";
+import Admin from "./components/pages/Admin.vue";
 import "../css/app.css"
 import "../scss/main.scss"
 import store from "./store/index.js"
@@ -26,6 +27,11 @@ const router = createRouter({
             path: '/register',
             name: 'register',
             component: Register
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: Admin
         }
     ],
     history: createWebHistory()
