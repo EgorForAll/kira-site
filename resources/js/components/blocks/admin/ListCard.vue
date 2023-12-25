@@ -1,11 +1,11 @@
 <script>
-import Widgets from "../ui/Widjets.vue";
-import BalloonComment from "../ui/BalloonComment.vue";
-import HumanDate from "../ui/HumanDate.vue";
+import Widgets from "../../ui/Widjets.vue";
+import BalloonComment from "../../ui/BalloonComment.vue";
+import HumanDate from "../../ui/HumanDate.vue";
 import {findSrc, observer} from "@/utils.js";
-import CommentForm from "../ui/CommentForm.vue";
-import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
-import EditSVG from "../../../assets/images/edit.svg?component";
+import CommentForm from "../../ui/CommentForm.vue";
+import CommentLeaveBtn from "../../ui/CommentLeaveBtn.vue";
+import EditSVG from "../../../../assets/images/edit.svg?component";
 import {mapActions} from "vuex";
 
 export default {
@@ -28,6 +28,10 @@ export default {
         image() {
             return findSrc(this.$props.post.image);
         },
+        openDeleteWindow() {
+            document.querySelector('body').classList.add('overlay')
+            this.$emit('toggleDeleteModal', this.$props.post)
+        },
         toggleComment() {
             this.$data.isCommentShow = !this.$data.isCommentShow
         },
@@ -38,6 +42,11 @@ export default {
                 throw new err
             }
         },
+        onClickEdit() {
+            this.setCurrentPost(this.$props.post)
+            document.querySelector('body').classList.add('overlay')
+            this.$emit('toggleEditModal')
+        }
     },
     mounted() {
         this.$refs.listItem.style.visibility = 'hidden'
@@ -50,6 +59,9 @@ export default {
     <li class="list__card cssanimation" ref="listItem">
         <header class="card__header d-flex justify-content-between pb-3 pt-0">
             <span class="card__title">#{{ post.title }}</span>
+            <button  @click="onClickEdit" class="list__edit-btn">
+                <EditSVG/>
+            </button>
 
         </header>
         <div class="card__img-wrapper">
@@ -61,6 +73,9 @@ export default {
         <div class="card__widgets pt-lg-3 pb-lg-3 pb-md-3 pt-md-3 pt-2 pb-2">
             <widgets :post-id="post.id" :comments="comments" @showComments="toggleComment()"/>
             <human-date :in-date="post.created_at"/>
+        </div>
+        <div  class="card__delete d-flex justify-content-end mb-md-3 mb-1 mt-2">
+            <button class="btn btn-secondary btn-delete" @click="openDeleteWindow">Удалить</button>
         </div>
         <transition name="custom-classes-transition"
                     enter-active-class="cssanimation fadeIn">
@@ -88,7 +103,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../../scss/main";
+@import "../../../../scss/main";
 
 .btn-delete {
     @media (max-width: $md) {

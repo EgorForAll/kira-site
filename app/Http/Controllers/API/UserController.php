@@ -106,7 +106,7 @@ class UserController extends Controller
     public function isAdmin()
     {
         $user = Auth::user();
-        if ($user->is_admin === 1) {
+        if ($user && $user->is_admin === 1) {
             $success = true;
         } else {
             $success = false;

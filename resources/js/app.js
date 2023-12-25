@@ -50,11 +50,22 @@ const router = createRouter({
 })
 
 async function fetchAdmin() {
-    const request =  await fetch('http://127.0.0.1:8000/laravel_route/admin').then((res) => res.json())
+    const request = await fetch('http://127.0.0.1:8000/laravel_route/admin').then((res) => res.json())
     return request.success
 }
 
-const isAdmin = await  fetchAdmin();
+async function fetchUser() {
+    const request = await fetch('http://127.0.0.1:8000/laravel_route/admin').then((res) => res.json())
+    return request.success
+}
+
+
+router.beforeEach(async (to) => {
+    const isAdmin = await fetchAdmin();
+    if (!isAdmin && to.name === 'admin') {
+        return {name: 'notAdmin'}
+    }
+})
 
 const app = createApp({
     components: {

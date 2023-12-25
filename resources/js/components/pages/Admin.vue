@@ -1,7 +1,7 @@
 <script>
 import Header from "../layout/Header.vue";
 import Footer from "../layout/Footer.vue"
-import PostList from "../blocks/PostList.vue";
+import PostList from "../blocks/admin/PostsList.vue";
 import NewPost from "../blocks/NewPost.vue";
 import {mapActions, mapGetters} from "vuex";
 
@@ -17,6 +17,9 @@ export default {
         }),
         ...mapActions({
             setCreateNew: "posts/setCreateNew"
+        }),
+        ...mapActions({
+           getUser: "auth/fetchUserData"
         }),
         onAddClick() {
             this.setCreateNew()
@@ -37,6 +40,7 @@ export default {
     created() {
         this.loadPosts({url: `http://127.0.0.1:8000/laravel_route/posts`, isUpdate: true})
         this.loadComments()
+        this.getUser()
     }
 }
 </script>

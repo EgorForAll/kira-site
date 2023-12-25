@@ -26,7 +26,7 @@ Route::group(['prefix' => 'laravel_route'], function () {
     Route::post('/posts/create', [PostController::class, 'store'])->name('post-create');
     Route::patch('/posts/update/{post}', [PostController::class, 'update'])->name('post-update');
     Route::delete('/posts/delete/{post}', [PostController::class, 'delete'])->name('post-delete');
-    Route::get('/user', [UserController::class, 'isUser'])->middleware('auth:sanctum');
+    Route::get('/user', [UserController::class, 'isUser']);
     Route::get('/comments', [CommentController::class, 'index'])->name('load-comments');
     Route::get('/comments{id}', [CommentController::class, 'fetchCommentsById'])->name('fetch-comments');
     Route::post('/comments', [CommentController::class, 'create'])->name('createComment');
