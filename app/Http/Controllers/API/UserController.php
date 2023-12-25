@@ -102,4 +102,18 @@ class UserController extends Controller
         ];
         return response($response);
     }
+
+    public function isAdmin()
+    {
+        $user = Auth::user();
+        if ($user->is_admin === 1) {
+            $success = true;
+        } else {
+            $success = false;
+        }
+        $response = [
+            'success' => $success
+        ];
+        return response($response);
+    }
 }

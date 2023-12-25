@@ -6,6 +6,8 @@ import Home from "./components/pages/Home.vue"
 import Auth from "./components/pages/Auth.vue";
 import Register from "./components/pages/Register.vue";
 import Admin from "./components/pages/Admin.vue";
+import NotFound from "./components/pages/NotFound.vue";
+import NotAdmin from "./components/pages/NotAdmin.vue";
 import "../css/app.css"
 import "../scss/main.scss"
 import store from "./store/index.js"
@@ -32,10 +34,27 @@ const router = createRouter({
             path: '/admin',
             name: 'admin',
             component: Admin
+        },
+        {
+            path: "/:catchAll(.*)",
+            name: 'notFound',
+            component: NotFound
+        },
+        {
+            path: "/403",
+            name: 'notAdmin',
+            component: NotAdmin
         }
     ],
     history: createWebHistory()
 })
+
+async function fetchAdmin() {
+    const request =  await fetch('http://127.0.0.1:8000/laravel_route/admin').then((res) => res.json())
+    return request.success
+}
+
+const isAdmin = await  fetchAdmin();
 
 const app = createApp({
     components: {

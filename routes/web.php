@@ -17,9 +17,11 @@ use App\Http\Controllers\CommentController;
 |
 */
 
+//Route::get('/{vue_capture?}', [\App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/{vue_capture?}', [\App\Http\Controllers\HomeController::class, 'index']);
 
 Route::group(['prefix' => 'laravel_route'], function () {
+    Route::get('/admin', [UserController::class, 'isAdmin']);
     Route::get('/posts', [PostController::class, 'index']);
     Route::post('/posts/create', [PostController::class, 'store'])->name('post-create');
     Route::patch('/posts/update/{post}', [PostController::class, 'update'])->name('post-update');
