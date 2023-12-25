@@ -76,10 +76,13 @@ export default {
 
 .post__container {
     height: 100%;
-    min-height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
+    @media (min-width: $lg) {
+        min-height: 500px;
+    }
+
 }
 
 .posts__list {

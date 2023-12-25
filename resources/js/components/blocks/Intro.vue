@@ -125,8 +125,27 @@ export default {
 }
 
 .intro__avatar-wrapper {
+    position: relative;
     grid-column: 1/2;
     grid-row: 1/2;
+    &::before {
+        position: absolute;
+        bottom: 0;
+        right: -40px;
+        width: 250px;
+        height: 150px;
+        content: '';
+        background-image: url("../../../assets/images/arrow.svg");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        @media (max-width: $lg) {
+            width: 190px;
+            height: 117px;
+        }
+        @media (max-width: $md) {
+            display: none;
+        }
+    }
 }
 
 .intro__avatar {
@@ -135,28 +154,20 @@ export default {
     border-radius: 50%;
     border: 10px solid $blue;
 
+
     @media (max-width: $lg) {
         width: 200px;
         height: 200px;
         border-width: 5px;
+        transform: translateY(30px);
     }
     @media (max-width: $md) {
         width: 150px;
         height: 150px;
         border-width: 3px;
+        transform: translateY(70px);
     }
 
-    &::after {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 200px;
-        height: 150px;
-        content: '';
-        background-image: url("../../../assets/images/arrow.svg");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-    }
 }
 
 .intro__row {
