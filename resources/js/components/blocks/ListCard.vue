@@ -5,13 +5,12 @@ import HumanDate from "../ui/HumanDate.vue";
 import {findSrc, observer} from "@/utils.js";
 import CommentForm from "../ui/CommentForm.vue";
 import CommentLeaveBtn from "../ui/CommentLeaveBtn.vue";
-import {loadComments} from "@/store/comments.js";
 import EditSVG from "../../../assets/images/edit.svg?component";
 import {mapGetters, mapActions} from "vuex";
 
 export default {
     name: 'ListCard',
-    props: ['post'],
+    props: ['post', 'comments'],
     emits: ['toggleEditModal', 'toggleDeleteModal'],
     mixins: [findSrc],
     components: {CommentForm, BalloonComment, Widgets, CommentLeaveBtn, HumanDate, EditSVG},
@@ -19,7 +18,6 @@ export default {
         return {
             isCommentShow: false,
             isAddNewComment: false,
-            comments: [],
             isDelete: false
         }
     },
@@ -54,9 +52,6 @@ export default {
         ...mapGetters({
             user: "auth/getUser"
         })
-    },
-    created() {
-        this.fetchComments()
     },
     mounted() {
         this.$refs.listItem.style.visibility = 'hidden'

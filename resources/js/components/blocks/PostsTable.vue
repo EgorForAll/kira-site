@@ -10,7 +10,7 @@ import NoPosts from "../ui/NoPosts.vue";
 export default {
     name: 'Posts',
     components: {PostCard, ModalCard, Comments, Pagination, NoPosts},
-    props: ['posts'],
+    props: ['posts', 'comments'],
     data() {
         return {
             isCardOpened: true,
@@ -21,13 +21,13 @@ export default {
         toggleComment() {
             this.$data.isCommentsShown = !this.$data.isCommentsShown
         },
+        defineComments(id) {
+            return this.$props.comments.filter((item) => item.post_id === id)
+        }
     },
     computed: {
         ...mapGetters({
             currentPost: "posts/getCurrentPost"
-        }),
-        ...mapGetters({
-            comments: "comments/getPostComments"
         }),
     },
     updated() {
@@ -52,10 +52,10 @@ export default {
                 <no-posts v-else />
             </transition>
             <modal-card v-if="currentPost" :currentPost="currentPost" :toggle-comment="toggleComment"
-                        :is-comment-shown="isCommentsShown"/>
+                        :is-comment-shown="isCommentsShown" :comments="defineComments(currentPost.id)"/>
             <transition name="custom-classes-transition" enter-active-class="cssanimation fadeInLeft"
                         leave-active-class="cssanimation fadeOutLeft">
-                <comments :post-id="currentPost.id" v-if="isCommentsShown" :toggle-comment="toggleComment"/>
+                <comments :post-id="currentPost.id" v-if="isCommentsShown" :toggle-comment="toggleComment" :comments="defineComments(currentPost.id)"/>
             </transition>
             <pagination v-if="posts.length >= 9"/>
         </div>

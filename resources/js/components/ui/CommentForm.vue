@@ -1,6 +1,6 @@
 <script>
 import Spinner from "../ui/Spinner.vue";
-import {mapGetters} from "vuex";
+import {mapGetters, mapActions} from "vuex";
 import {useVuelidate} from '@vuelidate/core'
 import {required, minLength} from '@vuelidate/validators'
 import {isUser, isIncludesHtml} from "@/utils.js";
@@ -22,6 +22,12 @@ export default {
         }
     },
     methods: {
+        ...mapActions({
+           addComment: "comments/addComment"
+        }),
+        ...mapActions({
+            loadComments: "comments/fetchComments"
+        }),
         async submitForm(e) {
             e.preventDefault()
             const isFormCorrect = await this.v$.$validate()
@@ -34,8 +40,7 @@ export default {
                 }
 
                 this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                    this.$axios.post('laravel_route/comments', data).then(() => this.$emit('loadNewComments'))
-                }).catch((err) => alert(`Произошла ошибка ${err}`))
+                    this.$axios.post('laravel_route/comments', data).then(() => this.loadComments())}).catch((err) => alert(`Произошла ошибка ${err}`))
                 this.form.comment = ''
             }
             setTimeout(() => this.isLoading = false, 500)

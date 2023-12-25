@@ -20,6 +20,9 @@ export default {
             loadPosts: 'posts/fetchPosts'
         }),
         ...mapActions({
+            loadComments: 'comments/fetchComments'
+        }),
+        ...mapActions({
             getUser: "auth/fetchUserData"
         }),
     },
@@ -31,11 +34,15 @@ export default {
             posts: "posts/getPosts"
         }),
         ...mapGetters({
+            comments: "comments/getComments"
+        }),
+        ...mapGetters({
             isCreateNewPost: 'posts/getCreateNew'
         }),
     },
     created() {
         this.loadPosts({url: `http://127.0.0.1:8000/laravel_route/posts`, isUpdate: true})
+        this.loadComments()
         this.getUser()
     },
 }
@@ -51,8 +58,8 @@ export default {
         <Header/>
         <main>
             <introduction @set-view="isTableView = !isTableView"  :is-table-view="isTableView"/>
-            <posts-table v-if="isTableView" :posts="posts"  :posts-per-page="postsPerPage"/>
-            <post-list v-else :posts="posts"/>
+            <posts-table v-if="isTableView" :posts="posts" :comments="comments"  :posts-per-page="postsPerPage"/>
+            <post-list v-else :posts="posts" :comments="comments"/>
             <transition name="custom-classes-transition"
                         enter-active-class="cssanimation moveFromTop" leave-active-class="cssanimation moveToTop">
                 <new-post v-if="isCreateNewPost"/>

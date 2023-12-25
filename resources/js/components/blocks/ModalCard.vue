@@ -9,13 +9,10 @@ import {findSrc} from "@/utils.js";
 export default {
     name: 'ModalCard',
     components: {Widgets, Comments, HumanDate},
-    props: ['toggleComment', 'isCommentShown', 'commentRef'],
+    props: ['toggleComment', 'isCommentShown', 'commentRef', 'comments'],
     methods: {
         ...mapActions({
             setCurrentPost: "posts/setCurrentPost"
-        }),
-        ...mapActions({
-            loadComments: "comments/postComments"
         }),
         image() {
           return findSrc(this.currentPost.image)
@@ -50,13 +47,9 @@ export default {
         ...mapGetters({
             currentPost: "posts/getCurrentPost"
         }),
-        ...mapGetters({
-            comments: 'comments/getPostComments'
-        }),
     },
     created() {
         const post = toRaw(this.currentPost)
-        this.loadComments(post.id)
     },
     mounted() {
         window.addEventListener('keydown', this.onEscDown)

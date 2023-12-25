@@ -8,7 +8,7 @@ import DeleteWindow from "../ui/DeleteWindow.vue";
 
 export default {
     name: 'PostList',
-    props: ['posts'],
+    props: ['posts', 'comments'],
     components: {ListCard, PaginationList, EditCard,  NoPosts, DeleteWindow},
     data() {
         return {
@@ -31,6 +31,9 @@ export default {
             document.querySelector('body').classList.remove('overlay')
             this.isDelete = !this.isDelete
         },
+        defineComments(id) {
+            return this.$props.comments.filter((item) => item.post_id === id)
+        }
     },
     computed: {
         ...mapGetters({
@@ -48,7 +51,7 @@ export default {
         <h2 class="posts__title">Список постов</h2>
         <div class="container post__container  pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-5 pb-lg-5">
             <ul v-if="posts.length" class="posts__list">
-                <list-card ref="listItem" v-for="(post) in posts" :key="post.id" :post="post"
+                <list-card ref="listItem" v-for="(post) in posts" :comments="defineComments(post.id)" :key="post.id" :post="post"
                           @toggle-edit-modal="isUpdate = !isUpdate" @toggle-delete-modal="toggleDelete"/>
             </ul>
             <no-posts v-else />

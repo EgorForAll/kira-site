@@ -7,28 +7,17 @@ import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'Comments',
-    props: ['toggleComment', 'postId'],
+    props: ['toggleComment', 'postId', 'comments'],
     components: {BalloonComment, CommentForm, CommentLeaveBtn},
     data() {
         return {
             isAddNewComment: false,
         }
     },
-    methods: {
-        ...mapActions({
-            loadComments: "comments/postComments"
-        })
-    },
     computed: {
         ...mapGetters({
             user: "auth/getUser"
         }),
-        ...mapGetters({
-            postComments: "comments/getPostComments"
-        })
-    },
-    created() {
-        this.loadComments(this.$props.postId)
     },
 }
 </script>
@@ -40,14 +29,13 @@ export default {
                     aria-label="Закрыть"></button>
         </div>
         <ul class="comments__list">
-            <BalloonComment :comments="postComments"/>
+            <BalloonComment :comments="comments"/>
         </ul>
         <div class="comment__footer">
             <comment-leave-btn :is-add-new-comment="isAddNewComment" @onClickBtn="isAddNewComment = !isAddNewComment"/>
             <transition name="custom-classes-transition"
                         enter-active-class="cssanimation fadeIn">
-                <CommentForm :current-comments="postComments" :post-id="postId" :is-add-new-comment="isAddNewComment"
-                              @loadNewComments="loadComments(postId)"/>
+                <CommentForm :current-comments="comments" :post-id="postId" :is-add-new-comment="isAddNewComment"/>
             </transition>
         </div>
     </div>
