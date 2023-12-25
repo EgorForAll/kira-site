@@ -27,7 +27,7 @@ export default {
         onLike() {
             if (this.user.name) {
                 this.isLoading = true
-                if (this.liked) {
+                if (this.$data.liked) {
                     this.$axios.post(`/laravel_route/unlike/${this.$props.postId}`).then((res) => {
                         if (res.status === 200) {
                             this.likes--

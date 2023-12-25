@@ -2,32 +2,16 @@
 import KiraAvatar from "../../../assets/images/kira-avatar.jpg"
 import ListSVG from "../../../assets/images/list.svg?component"
 import TableSVG from "../../../assets/images/table.svg?component"
-import AddSVG from "../../../assets/images/add.svg?component"
-import {mapGetters, mapActions} from "vuex";
 
 export default {
     name: 'Introduction',
     props: ['isTableView'],
-    components: {ListSVG, TableSVG, AddSVG},
+    components: {ListSVG, TableSVG},
     data() {
         return {
             avatarUrl: KiraAvatar
         }
     },
-    methods: {
-        ...mapActions({
-            setCreateNew: "posts/setCreateNew"
-        }),
-        onClickMode() {
-            this.setCreateNew();
-            document.querySelector('body').classList.add('overlay')
-        }
-    },
-    computed: {
-        ...mapGetters({
-            user: "auth/getUser"
-        }),
-    }
 }
 </script>
 
@@ -47,9 +31,6 @@ export default {
                         своей радостью со всеми вами!
                     </p>
                     <div class="intro__views">
-                        <button @click="onClickMode" v-if="user && user.role === 'admin'" class="intro__btn">
-                            <AddSVG/>
-                        </button>
                         <button class="intro__btn" :disabled="!isTableView" @click="$emit('setView')">
                             <ListSVG/>
                         </button>

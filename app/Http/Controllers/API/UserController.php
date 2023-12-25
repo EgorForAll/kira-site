@@ -90,8 +90,7 @@ class UserController extends Controller
             $success = true;
             $messages = [
                 'name' => $user->name,
-                'email' => $user->email,
-                'role' => $user->role
+                'email' => $user->email
             ];
         } else {
             $success = false;
@@ -100,6 +99,20 @@ class UserController extends Controller
         $response = [
             'success' => $success,
             'messages' => $messages
+        ];
+        return response($response);
+    }
+
+    public function isAdmin()
+    {
+        $user = Auth::user();
+        if ($user && $user->is_admin === 1) {
+            $success = true;
+        } else {
+            $success = false;
+        }
+        $response = [
+            'success' => $success
         ];
         return response($response);
     }

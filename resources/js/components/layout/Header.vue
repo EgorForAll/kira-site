@@ -38,7 +38,9 @@ export default {
     <header class="header">
         <div class="container header__container pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-4 pb-lg-4">
             <div class="row justify-content-between align-items-center">
-                <LogoSVG/>
+                <div class="header__logo-wrapper">
+                    <router-link :to="{name: 'home'}"><LogoSVG/></router-link>
+                </div>
                 <nav class="header__nav d-flex align-items-center">
                     <a @click="isLinkShown = !isLinkShown" @mouseenter="isLinkShown = !isLinkShown" v-if="isAuth" class="header__link me-2">{{
                             user.name
@@ -61,6 +63,10 @@ export default {
 
 <style lang="scss">
 @import "../../../scss/main";
+
+.header__logo-wrapper {
+    width: min-content;
+}
 
 .header__nav {
     position: relative;

@@ -7,6 +7,7 @@ use App\Http\Requests\Post\UpdateRequest;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -59,7 +60,12 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $likes = $post->likeCount;
-        $liked = $post->liked;
+        $user = Auth::user();
+        if ($user) {
+            $liked = $post->liked;
+        } else {
+            $liked = false;
+        }
         $response = [
             'likes' => $likes,
             'liked' => $liked

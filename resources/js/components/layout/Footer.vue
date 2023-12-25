@@ -11,7 +11,11 @@ export default {
     <footer class="footer">
         <div class="container">
             <div class="row row-footer justify-content-between align-items-center pb-lg-4 pt-lg-4 pb-3 pt-3">
-                <LogoSVG />
+                <div class="footer__logo-wrapper">
+                    <router-link :to="{name: 'home'}">
+                        <LogoSVG />
+                    </router-link>
+                </div>
                 <ul class="footer__list">
                     <li class="footer__list-item">
                         <a href="#top" class="footer__link">Навверх</a>
@@ -27,6 +31,10 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../scss/main";
+
+.footer__logo-wrapper {
+    width: min-content;
+}
 
 .footer__list {
     width: 27%;
