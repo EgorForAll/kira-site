@@ -4,6 +4,7 @@ import LogoSVG from "../../../assets/images/logo.svg";
 export default {
     name: 'Footer',
     components: {LogoSVG},
+    emits: ['onClickMail']
 }
 </script>
 
@@ -21,7 +22,10 @@ export default {
                         <a href="#top" class="footer__link">Навверх</a>
                     </li>
                     <li class="footer__list-item">
-                        <a href="#" class="footer__link">Подписаться на рассылку</a>
+                        <button @click="$emit('onClickMail')" class="footer__link">Связаться с Кирой</button>
+                    </li>
+                    <li class="footer__list-item">
+                        <button href="#" class="footer__link">Подписаться на рассылку</button>
                     </li>
                 </ul>
             </div>
@@ -34,6 +38,13 @@ export default {
 
 .footer__logo-wrapper {
     width: min-content;
+}
+
+.footer__list-item {
+    button {
+        border: none;
+        background-color: transparent;
+    }
 }
 
 .footer__list {
