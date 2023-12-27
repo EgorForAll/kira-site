@@ -3,32 +3,59 @@ import {mapGetters} from "vuex";
 import {useVuelidate} from '@vuelidate/core'
 import {required, minLength} from '@vuelidate/validators'
 import {isUser, isIncludesHtml} from "@/utils.js";
+import Spinner from "@/components/ui/Spinner.vue";
 
 export default {
     name: 'Mail',
+    components: {Spinner},
     emits: ['onCloseMail'],
     data() {
-      return {
-          from: '',
-          theme: '',
-          text: ''
-      }
+        return {
+            isLoading: false,
+            isSuccess: false,
+            isError: false,
+            form: {
+                from: '',
+                subject: '',
+                text: ''
+            },
+        }
     },
     setup() {
         return {v$: useVuelidate()}
     },
     methods: {
-        onPressEsc(e) {
-            e.preventDefault()
-            if (e.key === 'Escape' || e.key === 'Esc') {
-                this.$emit('onCloseMail')
-            }
-        },
         onClickOut(e) {
             const inModal = e.composedPath().includes(this.$refs.modal)
             if (!inModal) {
                 this.$emit('onCloseMail')
             }
+        },
+        onSubmit(e) {
+            e.preventDefault()
+            this.isLoading = true
+            const data = {
+                from: this.form.from,
+                subject: this.form.subject,
+                text: this.form.text
+            }
+            try {
+                this.$axios.post('laravel_route/send', data).then((res) => {
+                    if (res.status === 200) {
+                        console.log(res)
+                        this.isLoading = false
+                        this.isSuccess = true
+                    } else {
+                        this.isLoading = false
+                        this.isError = true
+                    }
+                })
+            } catch (err) {
+                this.isError = true
+                this.isLoading = false
+                throw  new  err;
+            }
+
         }
     },
     computed: {
@@ -38,14 +65,16 @@ export default {
     },
     validations() {
         return {
-            from: {required, isUser: isUser(this.user.name), isIncludesHtml},
-            theme: {required, minLength: minLength(2), isIncludesHtml},
-            text: {required, minLength: minLength(5), isIncludesHtml}
+            form: {
+                from: {required, isUser: isUser(this.user.name), isIncludesHtml},
+                subject: {required, minLength: minLength(2), isIncludesHtml},
+                text: {required, minLength: minLength(5), isIncludesHtml}
+            }
         }
     },
     created() {
         if (this.user) {
-        this.$data.from = this.user.name
+            this.$data.form.from = this.user.name
         }
     },
     mounted() {
@@ -66,40 +95,68 @@ export default {
                     <button @click="$emit('onCloseMail')" type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Закрыть"></button>
                 </div>
-                <form class="form" action="" method="post">
+                <form v-if="!isSuccess" class="form" action="" method="post">
                     <div class="modal-body">
                         <div class="form-item col-12">
                             <label class="form-label col-2" for="from">От кого:</label>
-                            <input v-model="v$.from.$model" type="text" class="form-input col-8" name="from"
+                            <input v-model="v$.form.from.$model" type="text" class="form-input col-8" name="from"
                                    id="from">
-                            <p class="error col-8 mt-1 mb-1" v-if="v$.from.required.$invalid">Обязательное поле</p>
-                            <p class="error col-8 mt-1 mb-1" v-if="v$.from.isUser.$invalid">Пожалуйста, авторизируйтесь</p>
+                            <p class="error col-8 mt-1 mb-1" v-if="v$.form.from.required.$invalid">Обязательное поле</p>
+                            <p class="error col-8 mt-1 mb-1" v-if="v$.form.from.isUser.$invalid">Пожалуйста,
+                                авторизируйтесь</p>
                         </div>
                         <div class="form-item col-12">
-                            <label class="form-label col-2" for="theme">Тема:</label>
-                            <input v-model="v$.theme.$model" type="text" class="form-input col-8" name="theme"
-                                   id="theme">
-                            <p class="error col-8 mt-1 mb-1" v-if="v$.theme.minLength.$invalid">Обязательное поле</p>
+                            <label class="form-label col-2" for="subject">Тема:</label>
+                            <input v-model="v$.form.subject.$model" type="text" class="form-input col-8" name="subject"
+                                   id="subject">
+                            <p class="error col-8 mt-1 mb-1" v-if="v$.form.subject.minLength.$invalid">Обязательное
+                                поле</p>
                         </div>
                         <div class="form-item col-12">
-                            <textarea v-model="v$.text.$model" class="form-input col-12"
+                            <textarea v-model="v$.form.text.$model" class="form-input col-12"
                                       placeholder="Напишите сообщение"/>
-                            <p class="error text-error col-8 mt-1 mb-1" v-if="v$.text.minLength.$invalid">Обязательное поле</p>
+                            <p class="error text-error col-8 mt-1 mb-1" v-if="v$.form.text.minLength.$invalid">
+                                Обязательное поле</p>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Отправить</button>
+                        <spinner v-if="isLoading"/>
+                        <button @click="onSubmit" type="button" class="btn btn-primary">Отправить</button>
                         <button @click="$emit('onCloseMail')" type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">Отмена
                         </button>
+
                     </div>
                 </form>
+                <div v-if="isSuccess" class="success">
+                    <div class="success-content">
+                        <div v-if="isSuccess" class="success-msg">Ваше сообщение успешно доставлено!</div>
+                        <div v-if="isError" class="success-msg">Произошла ошибка. Поробуйте позднее</div>
+                        <button @click="$emit('onCloseMail')" type="button" :class="`btn ${isSuccess ? 'btn-success' : 'btn-secondary'} mt-3`"
+                                data-bs-dismiss="modal">Ok
+                        </button>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
+
+.success {
+    padding: 20px;
+    display: flex;
+}
+
+.modal-footer {
+    .spinner-border {
+        width: 20px;
+        height: 20px;
+        margin-right: 30px;
+    }
+}
 
 .error {
     color: #d34e4e;
@@ -109,6 +166,7 @@ export default {
 .text-error {
     margin: 0;
 }
+
 .mail {
     position: absolute;
     display: block;

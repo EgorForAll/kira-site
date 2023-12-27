@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\TotalPostsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -28,11 +29,11 @@ Route::group(['prefix' => 'laravel_route'], function () {
     Route::delete('/posts/delete/{post}', [PostController::class, 'delete'])->name('post-delete');
     Route::get('/user', [UserController::class, 'isUser']);
     Route::get('/comments', [CommentController::class, 'index'])->name('load-comments');
-    Route::get('/comments{id}', [CommentController::class, 'fetchCommentsById'])->name('fetch-comments');
     Route::post('/comments', [CommentController::class, 'create'])->name('createComment');
     Route::post('/like/{post}', [PostController::class, 'like'])->name('like-post');
     Route::post('/unlike/{post}', [PostController::class, 'unlike'])->name('unlike-post');
     Route::get('/likes/{post}', [PostController::class, 'likes'])->name('likes-post');
+    Route::post('/send', [MailController::class, 'index'])->name('send-mail');
 });
 
 
