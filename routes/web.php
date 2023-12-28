@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\TotalPostsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
@@ -18,8 +18,7 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-//Route::get('/{vue_capture?}', [\App\Http\Controllers\HomeController::class, 'index']);
-Route::get('/{vue_capture?}', [\App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/{vue_capture?}', [HomeController::class, 'index']);
 
 Route::group(['prefix' => 'laravel_route'], function () {
     Route::get('/admin', [UserController::class, 'isAdmin']);
@@ -35,6 +34,7 @@ Route::group(['prefix' => 'laravel_route'], function () {
     Route::get('/likes/{post}', [PostController::class, 'likes'])->name('likes-post');
     Route::post('/send', [MailController::class, 'index'])->name('send-mail');
     Route::post('/reset', [UserController::class, 'reset'])->name('reset');
+    Route::post('/change', [UserController::class, 'change'])->name('change');
 });
 
 

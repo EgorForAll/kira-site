@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ResetRequest;
 use App\Models\User;
 use http\Env\Response;
@@ -141,5 +142,13 @@ class UserController extends Controller
             'success' => $message
         ];
         return response()->json($response);
+    }
+
+    public function change(ChangePasswordRequest $request)
+    {
+        $data = $request->validated();
+        ['old' => $old, 'new' => $new, 'new2' => $new2] = $data;
+        $user = Auth::user();
+        dd($user);
     }
 }
