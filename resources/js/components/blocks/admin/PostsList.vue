@@ -49,7 +49,7 @@ export default {
 <template>
     <section class="posts">
         <h2 class="posts__title">Список постов</h2>
-        <div class="container post__container  pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-5 pb-lg-5">
+        <div class="container post__container-admin  pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-5 pb-lg-5">
             <ul v-if="posts.length" class="posts__list">
                 <list-card ref="listItem" v-for="(post) in posts" :comments="defineComments(post.id)" :key="post.id" :post="post"
                            @toggle-edit-modal="isUpdate = !isUpdate" @toggle-delete-modal="toggleDelete"/>
@@ -77,9 +77,10 @@ export default {
     @include visually-hidden();
 }
 
-.post__container {
+.post__container-admin {
     height: 100%;
     display: flex;
+    flex-direction: column !important;
     justify-content: center;
     align-items: center;
 }

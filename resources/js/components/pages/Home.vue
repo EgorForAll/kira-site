@@ -3,7 +3,7 @@ import {mapActions, mapGetters} from "vuex";
 import Header from "../layout/Header.vue"
 import Introduction from "../blocks/Intro.vue";
 import PostsTable from "../blocks/PostsTable.vue";
-import PostList from "../blocks/PostsList.vue";
+import PostList from "../blocks/PostsListHome.vue";
 import Mail from "../blocks/Mail.vue";
 import Footer from "../layout/Footer.vue";
 

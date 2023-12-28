@@ -24,9 +24,6 @@ export default {
                     <li class="footer__list-item">
                         <button @click="$emit('onClickMail')" class="footer__link">Связаться с Кирой</button>
                     </li>
-                    <li class="footer__list-item">
-                        <button href="#" class="footer__link">Подписаться на рассылку</button>
-                    </li>
                 </ul>
             </div>
         </div>

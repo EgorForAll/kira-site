@@ -168,9 +168,7 @@ export default {
 }
 
 .mail {
-    position: absolute;
     display: block;
-    border: 1px solid #bdbdbd;
 }
 
 .form-input {

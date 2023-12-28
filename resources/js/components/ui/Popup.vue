@@ -49,20 +49,28 @@ export default {
 .popup__link {
     text-decoration: none;
     color: #000;
+    font-size: 16px;
     @include trans(color, 0.3s);
     &:hover {
         color: #415279;
+    }
+    @media (max-width: $md) {
+        font-size: 12px;
     }
 }
 .popup__logout {
     width: 100%;
     padding: 0;
+    font-size: 16px;
     background-color: transparent;
     border: none;
     color: #000;
     @include trans(color, 0.3s);
     &:hover {
         color: #415279;
+    }
+    @media (max-width: $md) {
+        font-size: 12px;
     }
 }
 .popup {
@@ -75,6 +83,9 @@ export default {
     background-color: #dee6ff;
     border-radius: 5px;
     box-shadow: 0 0 4px -1px #4a5568;
+    @media (max-width: $md) {
+        width: 135px;
+    }
 }
 
 .popup-list {
