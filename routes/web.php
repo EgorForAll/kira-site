@@ -34,6 +34,7 @@ Route::group(['prefix' => 'laravel_route'], function () {
     Route::post('/unlike/{post}', [PostController::class, 'unlike'])->name('unlike-post');
     Route::get('/likes/{post}', [PostController::class, 'likes'])->name('likes-post');
     Route::post('/send', [MailController::class, 'index'])->name('send-mail');
+    Route::post('/reset', [UserController::class, 'reset'])->name('reset');
 });
 
 

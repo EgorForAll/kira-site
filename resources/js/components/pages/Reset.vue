@@ -11,7 +11,7 @@
                 <div v-if="!isLoading" class="card card-default">
                     <div class="card-header">Авторизация</div>
                     <div class="card-body">
-                        <form>
+                        <form v-if="!isSuccess">
                             <div class="form-group mb-3 row">
                                 <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail</label>
                                 <div class="col-md-6">
@@ -19,27 +19,17 @@
                                            autofocus autocomplete="off">
                                 </div>
                             </div>
-
-                            <div class="form-group mb-3 row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">Пароль</label>
-                                <div class="col-md-6">
-                                    <input v-model.trim="v$.password.$model" id="password" type="password" class="form-control" v-model="password"
-                                           required autocomplete="off">
-                                </div>
-                            </div>
-
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary me-3" @click="handleSubmit">
-                                        Вход
+                                        Отправить
                                     </button>
-                                    <router-link  :to="{name: 'register'}" class="btn btn-secondary">
-                                        Регистрация
-                                    </router-link>
-                                    <router-link class="ms-3" :to="{name: 'reset'}">Забыли пароль?</router-link>
+                                    <spinner v-if="isLoading"/>
                                 </div>
                             </div>
                         </form>
+                        <div class="success" v-if="isSuccess">Новый логин отправлен на вашу почту</div>
+                        <div class="alert alert-danger" v-if="isError">Пользователь с указанной почтой не найден</div>
                     </div>
                 </div>
                 <Spinner v-else />
@@ -55,14 +45,15 @@ import {useVuelidate} from '@vuelidate/core'
 import {required} from '@vuelidate/validators'
 import {isIncludesHtml} from "@/utils.js";
 export default {
-    name: 'Auth',
+    name: 'Reset',
     components: {Header, Spinner},
     data() {
         return {
             isLoading: false,
             email: "",
-            password: "",
-            error: null
+            error: null,
+            isSuccess: false,
+            isError: false
         }
     },
     setup() {
@@ -71,7 +62,6 @@ export default {
     validations() {
         return {
             email: {required, isIncludesHtml},
-            password: {required, isIncludesHtml}
         }
     },
     methods: {
@@ -80,22 +70,19 @@ export default {
             const isFormCorrect = await this.v$.$validate()
             if (isFormCorrect) {
                 this.isLoading = true
-                this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                    this.$axios.post('api/login', {
-                        email: this.email,
-                        password: this.password
+                try {
+                    const data = {
+                        email: this.email
+                    }
+                    this.$axios.post('laravel_route/reset', data).then((res) => {
+                        if (res.data.success) {
+                            this.isLoading = false;
+                            this.isSuccess = true;
+                        }
                     })
-                        .then(response => {
-                            if (response.data.success) {
-                                this.$router.push('/')
-                            } else {
-                                this.error = response.data.message
-                            }
-                        })
-                        .catch(function (error) {
-                            alert(`Произошла ошибка ${error}. Попробуйте еще раз`);
-                        }).finally(() => this.isLoading = false);
-                })
+                } catch (err) {
+                    throw new err
+                }
             } else {
                 alert('Проверьте правильность заполненных полей')
             }

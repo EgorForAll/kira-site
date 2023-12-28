@@ -8,6 +8,7 @@ import Register from "./components/pages/Register.vue";
 import Admin from "./components/pages/Admin.vue";
 import NotFound from "./components/pages/NotFound.vue";
 import NotAdmin from "./components/pages/NotAdmin.vue";
+import Reset from "./components/pages/Reset.vue";
 import "../css/app.css"
 import "../scss/main.scss"
 import store from "./store/index.js"
@@ -34,6 +35,11 @@ const router = createRouter({
             path: '/admin',
             name: 'admin',
             component: Admin
+        },
+        {
+            path: "/reset-password",
+            name: 'reset',
+            component: Reset
         },
         {
             path: "/:catchAll(.*)",

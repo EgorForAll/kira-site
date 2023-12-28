@@ -43,6 +43,7 @@ export default {
 .footer__list-item {
     button {
         border: none;
+        padding: 0;
         background-color: transparent;
     }
 }

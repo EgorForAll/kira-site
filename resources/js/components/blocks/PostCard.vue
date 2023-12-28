@@ -40,6 +40,7 @@ export default {
 .posts__item {
     position: relative;
     width: 100%;
+    min-width: 300px;
     height: 400px;
     padding: 10px;
     background-color: $blue;
@@ -60,10 +61,12 @@ export default {
 
     @media (max-width: $lg) {
         height: 250px;
+        min-width: 190px;
     }
     @media (max-width: $md) {
         height: 150px;
         padding: 5px;
+        min-width: 100px;
     }
 }
 

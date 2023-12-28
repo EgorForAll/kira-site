@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ResetRequest;
 use App\Models\User;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -115,5 +119,27 @@ class UserController extends Controller
             'success' => $success
         ];
         return response($response);
+    }
+
+    public function reset(ResetRequest $request)
+    {
+        $email = $request->validated();
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            $password = Str::password();
+            $user->password = Hash::make($password);
+            $user->save();
+            Mail::send(['text' => view('password', compact('password'))], ['name' => 'Kira-blog'], function ($message) use ($user) {
+                $message->to($user->email, $user->name)->subject('Сброс пароля');
+                $message->from('top-7.test@mail.ru');
+            });
+            $message = true;
+        } else {
+            $message = false;
+        }
+        $response = [
+            'success' => $message
+        ];
+        return response()->json($response);
     }
 }
