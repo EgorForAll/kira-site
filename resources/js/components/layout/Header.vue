@@ -1,6 +1,7 @@
 <script>
 import LogoSVG from "../../../assets/images/logo.svg";
 import AvatarSVG from "../../../assets/images/avatar.svg?component";
+import Popup from "../ui/Popup.vue";
 import {mapGetters, mapActions} from "vuex";
 
 export default {
@@ -10,7 +11,7 @@ export default {
             isLinkShown: false
         }
     },
-    components: {AvatarSVG, LogoSVG},
+    components: {AvatarSVG, LogoSVG, Popup},
     methods: {
         ...mapActions({
             resetAuth: "auth/resetAuth"
@@ -18,7 +19,8 @@ export default {
         onLogOut() {
             this.$axios.get('/sanctum/csrf-cookie').then(response => this.$axios.post('api/logout')).then(res => {
                 if (res.status === 200) {
-                this.resetAuth()
+                    this.resetAuth()
+                    this.isLinkShown = false;
                 }
             })
         },
@@ -39,20 +41,16 @@ export default {
         <div class="container header__container pt-2 pb-2 pt-md-3 pb-md-3 pt-lg-4 pb-lg-4">
             <div class="row justify-content-between align-items-center">
                 <div class="header__logo-wrapper">
-                    <router-link :to="{name: 'home'}"><LogoSVG/></router-link>
+                    <router-link :to="{name: 'home'}">
+                        <LogoSVG/>
+                    </router-link>
                 </div>
                 <nav class="header__nav d-flex align-items-center">
-                    <a @click="isLinkShown = !isLinkShown" @mouseenter="isLinkShown = !isLinkShown" v-if="isAuth" class="header__link me-2">{{
+                    <a @click="isLinkShown = !isLinkShown" v-if="isAuth" class="header__link me-2">{{
                             user.name
                         }}</a>
                     <router-link :to="{name: 'auth'}" v-else href="#" class="header__link">Войти</router-link>
-                    <transition name="custom-classes-transition"
-                                enter-active-class="cssanimation fadeIn"
-                                leave-active-class="cssanimation fadeOut">
-                        <button type="button" class="btn btn-secondary out" v-if="isLinkShown"
-                                @mouseout="isLinkShown = !isLinkShown" @click="onLogOut">Выйти
-                        </button>
-                    </transition>
+                    <popup v-if="isLinkShown" @on-log-out="onLogOut" @on-close-popup="isLinkShown = false"/>
                     <AvatarSVG/>
                 </nav>
             </div>

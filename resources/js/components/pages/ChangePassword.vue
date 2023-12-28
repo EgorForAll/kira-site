@@ -9,36 +9,32 @@
                 </div>
 
                 <div v-if="!isLoading" class="card card-default">
-                    <div class="card-header">Авторизация</div>
+                    <div class="card-header">Изменения пароля</div>
                     <div class="card-body">
                         <form>
-                            <div class="form-group mb-3 row">
-                                <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail</label>
-                                <div class="col-md-6">
-                                    <input v-model.trim="v$.email.$model" id="email" type="email" class="form-control" v-model="email" required
-                                           autofocus autocomplete="off">
-                                </div>
-                            </div>
 
                             <div class="form-group mb-3 row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">Пароль</label>
+                                <label for="password" class="col-md-4 col-form-label text-md-right">Старый пароль</label>
                                 <div class="col-md-6">
-                                    <input v-model.trim="v$.password.$model" id="password" type="password" class="form-control"
+                                    <input v-model.trim="v$.oldPassword.$model" id="password" type="password" class="form-control" v-model="password"
+                                           required autocomplete="off">
+                                </div>
+                            </div>                            <div class="form-group mb-3 row">
+                                <label for="password" class="col-md-4 col-form-label text-md-right">Новый пароль</label>
+                                <div class="col-md-6">
+                                    <input v-model.trim="v$.newPassword.$model" id="password" type="password" class="form-control" v-model="password"
+                                           required autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label for="password" class="col-md-4 col-form-label text-md-right">Еще раз новый пароль</label>
+                                <div class="col-md-6">
+                                    <input v-model.trim="v$.newPasswordMore.$model" id="password" type="password"
+                                           class="form-control"
                                            required autocomplete="off">
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary me-3" @click="handleSubmit">
-                                        Вход
-                                    </button>
-                                    <router-link  :to="{name: 'register'}" class="btn btn-secondary">
-                                        Регистрация
-                                    </router-link>
-                                    <router-link class="ms-3" :to="{name: 'reset'}">Забыли пароль?</router-link>
-                                </div>
-                            </div>
                         </form>
                     </div>
                 </div>
@@ -55,13 +51,14 @@ import {useVuelidate} from '@vuelidate/core'
 import {required} from '@vuelidate/validators'
 import {isIncludesHtml} from "@/utils.js";
 export default {
-    name: 'Auth',
+    name: 'ChangePassword',
     components: {Header, Spinner},
     data() {
         return {
             isLoading: false,
-            email: "",
-            password: "",
+            oldPassword: "",
+            newPassword: '',
+            newPasswordMore: '',
             error: null
         }
     },
@@ -70,8 +67,9 @@ export default {
     },
     validations() {
         return {
-            email: {required, isIncludesHtml},
-            password: {required, isIncludesHtml}
+            oldPassword: {required, isIncludesHtml},
+            newPassword: {required, isIncludesHtml},
+            newPasswordMore: {required, isIncludesHtml},
         }
     },
     methods: {

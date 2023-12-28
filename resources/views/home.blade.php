@@ -13,6 +13,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="msapplication-config" content="{{url('/storage/images/favicon/browserconfig.xml')}}">
     <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Блог самого жизнерадостного котика на свете. Следите за обновлениями! Здесь только самые пушистые новости!">
     <link href="https://cdn.jsdelivr.net/gh/yesiamrocks/cssanimation.io@1.0.3/cssanimation.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
