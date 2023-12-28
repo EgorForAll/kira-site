@@ -23,7 +23,6 @@ export default {
         }),
         onAddClick() {
             this.setCreateNew()
-            document.querySelector('body').classList.add('overlay')
         }
     },
     computed: {

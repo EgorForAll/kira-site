@@ -32,7 +32,6 @@ export default {
         }),
         onCloseBtn() {
             this.setCreateNew()
-            document.querySelector('body').classList.remove('overlay')
         },
         onEscDown(e) {
             if (e.key === 'Escape' || e.key === 'Esc') {
@@ -56,7 +55,6 @@ export default {
                 this.$axios.post('laravel_route/posts/create', data, options).then((res) =>{
                     if (res.status === 200) {
                         this.updatePosts({url: 'http://127.0.0.1:8000/laravel_route/posts', isUpdate: true})
-                        document.querySelector('body').classList.remove('overlay')
                         this.isLoading = false
                         this.setCreateNew()
                     }
@@ -147,6 +145,7 @@ export default {
     @include modal-card();
     height: 450px;
     margin-left: -300px;
+    border: 1px solid #333;
     top: 60%;
     @media (max-width: $lg) {
         height: 400px;

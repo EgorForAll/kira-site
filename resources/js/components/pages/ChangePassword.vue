@@ -22,8 +22,8 @@
                             </div>                            <div class="form-group mb-3 row">
                                 <label for="password" class="col-md-4 col-form-label text-md-right">Новый пароль</label>
                                 <div class="col-md-6">
-                                    <input v-model.trim="v$.newPassword.$model" id="password" type="password"  :class="error ? 'form-control input-error' : 'form-control'"
-                                           required autocomplete="off">
+                                    <input v-model.trim="v$.newPassword.$model" id="password" type="password"  :class="error ? 'form-control input-error' : 'form-control'"  required autocomplete="off"/>
+                                    <p v-if="v$.newPassword.minLength.$invalid" class="error">Пароль должен содержать не менее 6 символов</p>
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
@@ -32,6 +32,7 @@
                                     <input v-model.trim="v$.newPasswordMore.$model" id="password" type="password"
                                            :class="error ? 'form-control input-error' : 'form-control'"
                                            required autocomplete="off">
+                                    <p v-if="v$.newPasswordMore.minLength.$invalid" class="error">Пароль должен содержать не менее 6 символов</p>
                                 </div>
                             </div>
 
@@ -60,7 +61,7 @@
 import Header from "../layout/Header.vue";
 import Spinner from "../ui/Spinner.vue";
 import {useVuelidate} from '@vuelidate/core'
-import {required} from '@vuelidate/validators'
+import {required, minLength} from '@vuelidate/validators'
 import {isIncludesHtml} from "@/utils.js";
 
 const comparePasswords = (a, b) => a === b;
@@ -83,8 +84,8 @@ export default {
     validations() {
         return {
             oldPassword: {required, isIncludesHtml},
-            newPassword: {required, isIncludesHtml},
-            newPasswordMore: {required, isIncludesHtml},
+            newPassword: {required, isIncludesHtml, minLength: minLength(6)},
+            newPasswordMore: {required, isIncludesHtml, minLength: minLength(6)},
         }
     },
     methods: {
@@ -96,24 +97,26 @@ export default {
                 this.error = 'Пароли не совпадают'
             }
             if (isFormCorrect && isEqual) {
-                console.log('yes')
-                // this.isLoading = true
-                // this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                //     this.$axios.post('api/login', {
-                //         email: this.email,
-                //         password: this.password
-                //     })
-                //         .then(response => {
-                //             if (response.data.success) {
-                //                 this.$router.push('/')
-                //             } else {
-                //                 this.error = response.data.message
-                //             }
-                //         })
-                //         .catch(function (error) {
-                //             alert(`Произошла ошибка ${error}. Попробуйте еще раз`);
-                //         }).finally(() => this.isLoading = false);
-                // })
+
+                this.isLoading = true
+                const data = {
+                    old: this.oldPassword,
+                    new: this.newPassword,
+                    new2: this.newPasswordMore
+                }
+                this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                    this.$axios.post('laravel_route/change', data)
+                        .then(response => {
+                            if (response.data.success) {
+                                this.$router.push('/')
+                            } else {
+                                this.error = response.data
+                            }
+                        })
+                        .catch(function (error) {
+                            alert(`Произошла ошибка ${error}. Попробуйте еще раз`);
+                        }).finally(() => this.isLoading = false);
+                })
             } else {
                 alert('Проверьте правильность заполненных полей')
             }

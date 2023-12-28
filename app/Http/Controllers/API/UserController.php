@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class UserController extends Controller
 {
@@ -147,8 +148,19 @@ class UserController extends Controller
     public function change(ChangePasswordRequest $request)
     {
         $data = $request->validated();
-        ['old' => $old, 'new' => $new, 'new2' => $new2] = $data;
+        ['old' => $old, 'new' => $new] = $data;
         $user = Auth::user();
-        dd($user);
+        $isOldEqual = password_verify($old, $user->password);
+        if ($isOldEqual && $old !== $new) {
+            $user->password = Hash::make($new);
+            $user->save();
+            $success = true;
+        } else {
+            $success = 'Введите новый пароль';
+        }
+        $message = [
+            'success' => $success
+        ];
+        return response()->json($message);
     }
 }
