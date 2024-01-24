@@ -6,8 +6,10 @@ use App\Http\Requests\Post\StoreRequest;
 use App\Http\Requests\Post\UpdateRequest;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -80,6 +82,18 @@ class PostController extends Controller
             $data = $request->validated();
             $data['image'] = Storage::put('public/images', $data['image']);
             Post::create($data);
+            $emails = User::all()->reject(function (User $user) {
+                return $user->is_notified !== 1;
+            })->map(function (User $user) {
+                return $user->email;
+            });
+            foreach ($emails as $email) {
+                Mail::send(['text' => view('push')], ['name' => 'Kira'], function ($message) use ($email) {
+                    $subject = 'Новая запись на kira-blog.ru';
+                    $message->to($email)->subject($subject);
+                    $message->from('egor-write@yandex.ru');
+                });
+            }
         } catch (\Exception $e) {
             dd($e);
         }

@@ -36,6 +36,7 @@ Route::group(['prefix' => 'laravel_route'], function () {
     Route::post('/send', [MailController::class, 'index'])->name('send-mail');
     Route::post('/reset', [UserController::class, 'reset'])->name('reset');
     Route::post('/change', [UserController::class, 'change'])->name('change');
+    Route::post('/notify', [UserController::class, 'notify'])->name('notify');
 });
 
 

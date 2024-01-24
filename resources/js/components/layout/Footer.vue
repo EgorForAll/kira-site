@@ -1,19 +1,30 @@
 <script>
 import LogoSVG from "../../../assets/images/logo.svg";
+import {mapGetters} from "vuex";
 
 export default {
-    name: 'Footer',
-    components: {LogoSVG},
-    emits: ['onClickMail']
-}
+    name: "Footer",
+    components: { LogoSVG },
+    emits: ["onClickMail", "onClickSubscribe"],
+    computed: {
+        ...mapGetters({
+            user: "auth/getUser"
+        }),
+        ...mapGetters({
+            auth: "auth/getAuth"
+        })
+    }
+};
 </script>
 
 <template>
     <footer class="footer">
         <div class="container">
-            <div class="row row-footer justify-content-between align-items-center pb-lg-4 pt-lg-4 pb-3 pt-3">
+            <div
+                class="row row-footer justify-content-between align-items-center pb-lg-4 pt-lg-4 pb-3 pt-3"
+            >
                 <div class="footer__logo-wrapper">
-                    <router-link :to="{name: 'home'}">
+                    <router-link :to="{ name: 'home' }">
                         <LogoSVG />
                     </router-link>
                 </div>
@@ -22,7 +33,28 @@ export default {
                         <a href="#top" class="footer__link">Навверх</a>
                     </li>
                     <li class="footer__list-item">
-                        <button @click="$emit('onClickMail')" class="footer__link">Связаться с Кирой</button>
+                        <button
+                            @click="$emit('onClickMail')"
+                            class="footer__link"
+                        >
+                            Связаться с Кирой
+                        </button>
+                    </li>
+                    <li class="footer__list-item">
+                        <button
+                            class="footer__link"
+                            @click="$emit('onClickSubscribe')"
+                            v-if="user.is_notified === 0 || !auth"
+                        >
+                            Подписаться на рыссылку
+                        </button>
+                        <button
+                            class="footer__link"
+                            @click="$emit('onClickSubscribe')"
+                           v-else-if="user.is_notified === 1"
+                        >
+                            Отписаться от рыссылки
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -66,7 +98,7 @@ export default {
 }
 
 .footer__link {
-    color: #4C80CE;
+    color: #4c80ce;
     text-align: justify;
     font-family: $base-font;
     font-size: 24px;

@@ -96,7 +96,8 @@ class UserController extends Controller
             $success = true;
             $messages = [
                 'name' => $user->name,
-                'email' => $user->email
+                'email' => $user->email,
+                'is_notified' => $user->is_notified
             ];
         } else {
             $success = false;
@@ -162,5 +163,27 @@ class UserController extends Controller
             'success' => $success
         ];
         return response()->json($message);
+    }
+
+    public function notify()
+    {
+        $user = Auth::user();
+        if ($user && $user->is_notified === 0 ) {
+            $user->is_notified = 1;
+            $user->save();
+            $message = 'Вы успешно подписались на новости Киры';
+        } else if ($user && $user->is_notified === 1) {
+            $user->is_notified = 0;
+            $user->save();
+            $message = 'Вы успешно отписались от новостей Киры';
+        } else {
+            $message = 'Пожалуйста авторизируйтесь и повторите попытку';
+        }
+
+        $response = [
+            'message' => $message
+        ];
+
+        return response()->json($response);
     }
 }

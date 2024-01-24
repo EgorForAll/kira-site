@@ -6,6 +6,7 @@ export default {
     state: {
         user: {},
         isAuth: false,
+        isNotified: false,
         error: ''
     },
     mutations: {
@@ -41,6 +42,16 @@ export default {
                 commit('SET_ERR', err.message)
             }
 
+        },
+        async updateUser({commit}) {
+            try {
+                const request = await axios.get('http://127.0.0.1:8000/laravel_route/user');
+                if (request.data.success) {
+                    commit("SET_USER", request.data.messages);
+                }
+            } catch (err) {
+                commit('SET_ERR', err.message)
+            }
         },
         resetAuth({commit}) {
             commit("SET_AUTH");

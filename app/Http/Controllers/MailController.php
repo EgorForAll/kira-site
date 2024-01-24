@@ -16,7 +16,7 @@ class MailController extends Controller
         Mail::send(['text' => view('mail', compact('text', 'from'))], ['name' => $from], function ($message) use ($data) {
             $subject = $data['subject'];
             $message->to('eia.web.ss@gmail.com', 'Egor')->subject($subject);
-            $message->from('top-7.test@mail.ru');
+            $message->from('egor-write@yandex.ru');
         });
     }
 }
